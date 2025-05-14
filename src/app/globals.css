@@ -1,26 +1,30 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.logo-shine {
+  transition: transform 0.3s;
+  display: inline-block;
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.logo-shine:hover {
+  transform: scale(1.12);
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.logo-shine .shine-overlay {
+  pointer-events: none;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 1rem;
+  opacity: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,0.0) 40%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0.0) 60%);
+  transition: opacity 0.2s;
+  background-size: 220% 100%;
+  background-position: -220px 0;
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.logo-shine:hover .shine-overlay {
+  opacity: 1;
+  animation: shine-move 0.8s linear;
 }
+@keyframes shine-move {
+  0% { background-position: -220px 0; }
+  100% { background-position: 220px 0; }
+} 
