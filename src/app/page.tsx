@@ -291,7 +291,6 @@ export default function Home() {
         style={isMacbookSize ? {
           marginTop: "-40rem", // Extreme value for testing
           paddingTop: "20rem",
-          backgroundColor: "rgba(255, 0, 0, 0.3)", // Very visible red background
         } : {}}
       >
         <div className="relative w-full max-w-7xl px-4 sm:px-8">
