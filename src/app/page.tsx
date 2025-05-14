@@ -89,6 +89,7 @@ export default function Home() {
   const [reviewIndex, setReviewIndex] = useState(0);
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+  const [isMacbookSize, setIsMacbookSize] = useState(false);
   const autoAdvanceTime = 7000;
 
   // Handle window resize
@@ -98,9 +99,16 @@ export default function Home() {
     // Set initial width
     setWindowWidth(window.innerWidth);
     
+    // Check if device is in MacBook size range (1280-1350px)
+    const checkMacbookSize = () => {
+      setIsMacbookSize(window.innerWidth >= 1280 && window.innerWidth <= 1350);
+    };
+    checkMacbookSize();
+    
     // Add resize listener
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
+      checkMacbookSize();
     };
     
     window.addEventListener('resize', handleResize);
@@ -275,10 +283,15 @@ export default function Home() {
 
       {/* Carousel - Positioned to bridge hero and about sections */}
         <motion.div 
-        className="relative -mt-60 sm:-mt-72 md:-mt-80 md:max-lg:-mt-[32rem] lg:-mt-96 only-xl:pt-[10rem] z-30 flex justify-center items-center mb-[-2rem] sm:mb-[-1rem] md:mb-[0] pointer-events-none pb-8 sm:pb-10 overflow-x-hidden"
+        className="relative -mt-60 sm:-mt-72 md:-mt-80 md:max-lg:-mt-[32rem] lg:-mt-96 z-30 flex justify-center items-center mb-[-2rem] sm:mb-[-1rem] md:mb-[0] pointer-events-none pb-8 sm:pb-10 overflow-x-hidden"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.8, duration: 0.8 }}
+        style={isMacbookSize ? {
+          marginTop: "-40rem", // Extreme value for testing
+          paddingTop: "20rem",
+          backgroundColor: "rgba(255, 0, 0, 0.3)", // Very visible red background
+        } : {}}
       >
         <div className="relative w-full max-w-7xl px-4 sm:px-8">
           {/* Carousel Container */}
