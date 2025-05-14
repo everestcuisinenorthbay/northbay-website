@@ -99,9 +99,10 @@ export default function Home() {
     // Set initial width
     setWindowWidth(window.innerWidth);
     
-    // Check if device is in MacBook size range (1280-1350px)
+    // Check if device is in MacBook size range (1200-1500px)
     const checkMacbookSize = () => {
-      setIsMacbookSize(window.innerWidth >= 1280 && window.innerWidth <= 1350);
+      console.log('window.innerWidth:', window.innerWidth);
+      setIsMacbookSize(window.innerWidth >= 1200 && window.innerWidth <= 1500);
     };
     checkMacbookSize();
     
