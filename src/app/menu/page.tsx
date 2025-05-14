@@ -1,6 +1,6 @@
 "use client";
 import MenuCard from '@/components/ui/MenuCard';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
@@ -820,14 +820,6 @@ export default function MenuPage() {
   const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'name-asc'>('name-asc');
   const [expandedCategories, setExpandedCategories] = useState<number[]>([1]);
 
-  const toggleCategory = (categoryId: number) => {
-    setExpandedCategories(prev => 
-      prev.includes(categoryId) 
-        ? prev.filter(id => id !== categoryId)
-        : [...prev, categoryId]
-    );
-  };
-
   // Flatten all menu items for filtering
   const allMenuItems = useMemo(() => {
     return reorderedCategories.flatMap(category => 
@@ -877,6 +869,30 @@ export default function MenuPage() {
       }))
       .filter(category => category.items.length > 0);
   }, [filteredItems, reorderedCategories]);
+
+  // useEffect block here
+  useEffect(() => {
+    const isDefault =
+      !searchQuery &&
+      priceRange[0] === 0 && priceRange[1] === 50 &&
+      !dietaryFilters.vegetarian &&
+      !dietaryFilters.spicy &&
+      !dietaryFilters.glutenFree &&
+      sortBy === 'name-asc';
+    if (isDefault) {
+      setExpandedCategories([1]);
+    } else {
+      setExpandedCategories(filteredCategories.map(category => category.id));
+    }
+  }, [searchQuery, priceRange, dietaryFilters, sortBy, filteredCategories]);
+
+  const toggleCategory = (categoryId: number) => {
+    setExpandedCategories(prev => 
+      prev.includes(categoryId) 
+        ? prev.filter(id => id !== categoryId)
+        : [...prev, categoryId]
+    );
+  };
 
   return (
     <div className="bg-[#FFF9F0] min-h-screen">

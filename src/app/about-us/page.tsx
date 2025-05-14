@@ -257,7 +257,7 @@ export default function AboutUs() {
             >
               <div className="aspect-[1/1] relative">
                 <Image
-                  src="/Ramesh-baniya.jpg"
+                  src="/Ramesh-Baniya.jpg"
                   alt="Restaurant Manager"
                   fill
                   className="object-cover"

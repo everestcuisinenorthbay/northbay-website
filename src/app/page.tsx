@@ -368,7 +368,7 @@ export default function Home() {
             <div className="mt-0 md:mt-0 order-first md:order-last h-full flex items-center">
               {/* Chef's image */}
               <motion.div 
-                className="relative aspect-[6/5] w-[85%] md:w-full md:h-full md:aspect-auto max-w-sm mx-auto md:max-w-none rounded-lg overflow-hidden shadow-xl"
+                className="relative w-full h-full aspect-[6/5] max-w-sm mx-auto md:max-w-none rounded-lg overflow-hidden shadow-xl"
                 variants={scaleUp}
                 initial="hidden"
                 whileInView="visible"
@@ -378,8 +378,8 @@ export default function Home() {
                   src="/chef-hero.jpg"
                   alt="Chef Rajesh Sherpa"
                   fill
-                  className="object-cover object-center"
-                  wrapperClassName="relative aspect-[6/5] w-[85%] md:w-full md:h-full md:aspect-auto max-w-sm mx-auto md:max-w-none rounded-lg overflow-hidden shadow-xl"
+                  className="object-cover object-center w-full h-full"
+                  wrapperClassName="relative w-full h-full aspect-[6/5] max-w-sm mx-auto md:max-w-none rounded-lg overflow-hidden shadow-xl"
                 />
                 <div className="absolute inset-0 bg-everest-green/10 hover:bg-everest-green/0 transition-colors duration-500"></div>
                 <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-everest-green/40 to-transparent"></div>
