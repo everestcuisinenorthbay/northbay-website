@@ -108,7 +108,7 @@ export default function AboutUs() {
                 className="text-slate-700 mb-4"
                 variants={fadeInUp}
               >
-                We specialize in authentic Nepali momos: steamed, fried, tandoori, kothey, or jhol, served with house-made sauces and spice blends. But the journey doesn't end there. Our Indo-Chinese lineup features favorites like Hakka chowmein, chicken chilli, and Gobi Manchurian, all wok-tossed and deeply satisfying.
+                We specialize in authentic Nepali momos: steamed, fried, tandoori, kothey, or jhol, served with house-made sauces and spice blends. But the journey doesn&apos;t end there. Our Indo-Chinese lineup features favorites like Hakka chowmein, chicken chilli, and Gobi Manchurian, all wok-tossed and deeply satisfying.
               </motion.p>
               <motion.p 
                 className="text-slate-700 mb-4"
@@ -120,7 +120,7 @@ export default function AboutUs() {
                 className="text-slate-700"
                 variants={fadeInUp}
               >
-                At Everest, it's all made from scratch. Big portions, honest prices, late-night hours. Whether you're here for a full Nepali meal, spicy street-style chowmein, or a quick lassi and snack, we've got something with your name on it.
+                At Everest, it&apos;s all made from scratch. Big portions, honest prices, late-night hours. Whether you&apos;re here for a full Nepali meal, spicy street-style chowmein, or a quick lassi and snack, we&apos;ve got something with your name on it.
               </motion.p>
             </motion.div>
             <motion.div 
@@ -210,7 +210,7 @@ export default function AboutUs() {
                 className="text-slate-700 mb-4"
                 variants={fadeInUp}
               >
-                Born and raised in Kathmandu, Nepal, Chef Sagar Shrestha's culinary journey began in his mother's kitchen. With over 25 years of experience, he has mastered the art of Nepalese and Indian cuisine through formal training at Nepal Academy of Tourism and Hotel Management.
+                Born and raised in Kathmandu, Nepal, Chef Sagar Shrestha&apos;s culinary journey began in his mother&apos;s kitchen. With over 25 years of experience, he has mastered the art of Nepalese and Indian cuisine through formal training at Nepal Academy of Tourism and Hotel Management.
               </motion.p>
               <motion.p 
                 className="text-slate-700 mb-4"
@@ -228,7 +228,7 @@ export default function AboutUs() {
                 className="text-slate-700 italic"
                 variants={fadeInUp}
               >
-                "Every dish we serve is a reflection of my journey - from the streets of Kathmandu to the finest restaurants across the world. I invite you to experience the authentic flavors of Nepal, crafted with passion and precision."
+                &quot;Every dish we serve is a reflection of my journey - from the streets of Kathmandu to the finest restaurants across the world. I invite you to experience the authentic flavors of Nepal, crafted with passion and precision.&quot;
               </motion.p>
             </motion.div>
           </div>
@@ -292,7 +292,7 @@ export default function AboutUs() {
                 <h3 className="text-xl font-serif text-everest-green mb-1">Ajay Sharma</h3>
                 <p className="text-everest-gold font-medium mb-3">Sous Chef</p>
                 <p className="text-slate-700 text-sm">
-                  With extensive training under Chef Sagar's mentorship, Ajay combines traditional Nepalese cooking techniques with innovative approaches, ensuring each dish that leaves our kitchen is authetic.
+                  With extensive training under Chef Sagar&apos;s mentorship, Ajay combines traditional Nepalese cooking techniques with innovative approaches, ensuring each dish that leaves our kitchen is authetic.
                 </p>
               </div>
             </motion.div>
@@ -317,7 +317,7 @@ export default function AboutUs() {
                 <h3 className="text-xl font-serif text-everest-green mb-1">Sheetal Rijal</h3>
                 <p className="text-everest-gold font-medium mb-3">Service Lead</p>
                 <p className="text-slate-700 text-sm">
-                  Sheetal's warm personality and attention to detail make her an invaluable part of our front-of-house team, ensuring every guest receives personalized service and leaves with a memorable dining experience.
+                  Sheetal&apos;s warm personality and attention to detail make her an invaluable part of our front-of-house team, ensuring every guest receives personalized service and leaves with a memorable dining experience.
                 </p>
               </div>
             </motion.div>

@@ -1,6 +1,5 @@
 'use client';
 
-import Link from "next/link";
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from '@/components/ui/Image';
 import { useState, useEffect, useRef } from 'react';
@@ -32,7 +31,7 @@ const reviews = [
   },
   {
     id: 4,
-    text: "I've gone here twice now and definitely want to go again! I love any kind of dumpling, and when I learned about momos I had to try some. Everest Cuisine is a cute spot and the serving of 10 momos is quite filling. The student menu portions are huge, so keep that in mind before ordering multiple things!",
+    text: "I&apos;ve gone here twice now and definitely want to go again! I love any kind of dumpling, and when I learned about momos I had to try some. Everest Cuisine is a cute spot and the serving of 10 momos is quite filling. The student menu portions are huge, so keep that in mind before ordering multiple things!",
     author: "Sara Robinson",
     rating: 5,
   },
@@ -73,30 +72,6 @@ const staggerChildren = {
   };
 
 // New animation variants
-const slideIn = {
-  hidden: { x: -60, opacity: 0 },
-  visible: { 
-    x: 0, 
-    opacity: 1, 
-    transition: { 
-      duration: 0.8, 
-      ease: "easeOut" 
-    } 
-  }
-};
-
-const slideInRight = {
-  hidden: { x: 60, opacity: 0 },
-  visible: { 
-    x: 0, 
-    opacity: 1, 
-    transition: { 
-      duration: 0.8, 
-      ease: "easeOut" 
-    } 
-  }
-};
-
 const scaleUp = {
   hidden: { scale: 0.8, opacity: 0 },
   visible: { 
@@ -112,8 +87,6 @@ const scaleUp = {
 export default function Home() {
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [reviewIndex, setReviewIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
-  const progressRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const autoAdvanceTime = 7000;
@@ -145,21 +118,6 @@ export default function Home() {
     return () => clearInterval(carouselInterval);
   }, []);
 
-  // Progress for carousel
-  useEffect(() => {
-    setProgress(0);
-    progressRef.current = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 1) return 1;
-        return prev + 0.01;
-      });
-    }, autoAdvanceTime / 100);
-    
-    return () => {
-      if (progressRef.current) clearInterval(progressRef.current);
-    };
-  }, [carouselIndex, autoAdvanceTime]);
-
   // Auto-advance reviews
   useEffect(() => {
     const reviewInterval = setInterval(() => {
@@ -168,18 +126,6 @@ export default function Home() {
     return () => clearInterval(reviewInterval);
   }, []);
 
-  // Manual navigation
-  const goToSlide = (idx: number) => {
-    setCarouselIndex(idx);
-    setProgress(0);
-  };
-
-  // Swipe/drag support
-  const handleDragEnd = (_event: unknown, info: { offset: { x: number } }) => {
-    if (info.offset.x < -50) setCarouselIndex((prev) => (prev + 1) % dishes.length);
-    else if (info.offset.x > 50) setCarouselIndex((prev) => (prev - 1 + dishes.length) % dishes.length);
-  };
-  
   // Check if mobile based on state not direct window check
   const isMobile = windowWidth <= 640;
   
@@ -341,7 +287,6 @@ export default function Home() {
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
-            onDragEnd={handleDragEnd}
             whileHover={{ scale: 1.02 }}
             transition={{ scale: { duration: 0.5, ease: "easeOut" } }}
           >
