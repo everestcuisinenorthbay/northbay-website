@@ -3,11 +3,21 @@
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PhoneIcon, MapPinIcon, ClockIcon, ChevronDownIcon, EnvelopeIcon, CalendarIcon } from '@heroicons/react/24/outline';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 export default function ContactPage() {
   const [openSection, setOpenSection] = useState<string | null>('visit');
+  const [windowWidth, setWindowWidth] = useState(1024);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setWindowWidth(window.innerWidth);
+      const handleResize = () => setWindowWidth(window.innerWidth);
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
 
   const toggleSection = (section: string) => {
     setOpenSection(openSection === section ? null : section);
@@ -91,7 +101,7 @@ export default function ContactPage() {
                   </button>
                   
                   <AnimatePresence>
-                    {(openSection === 'visit' || window.innerWidth >= 1024) && (
+                    {(openSection === 'visit' || windowWidth >= 1024) && (
                       <motion.address 
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
@@ -128,7 +138,7 @@ export default function ContactPage() {
                   </button>
                   
                   <AnimatePresence>
-                    {(openSection === 'hours' || window.innerWidth >= 1024) && (
+                    {(openSection === 'hours' || windowWidth >= 1024) && (
                       <motion.ul 
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
@@ -167,7 +177,7 @@ export default function ContactPage() {
                   </button>
                   
                   <AnimatePresence>
-                    {(openSection === 'contact' || window.innerWidth >= 1024) && (
+                    {(openSection === 'contact' || windowWidth >= 1024) && (
                       <motion.ul 
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
