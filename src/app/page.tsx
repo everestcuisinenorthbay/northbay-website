@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+import Image from '@/components/ui/Image';
 import { useState, useEffect, useRef } from 'react';
-import LazyImage from '@/components/ui/LazyImage';
-import { getSizes } from '@/lib/imageUtils';
 
 const dishes = [
   { src: '/dish1.png', alt: 'Dish 1' },
@@ -193,13 +191,15 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
+          className="absolute inset-0"
         >
           <Image
             src="/hero-bg.jpg"
             alt="Everest Cuisine Hero Background"
             fill
-            className="object-cover object-center"
             priority
+            className="object-cover object-center"
+            wrapperClassName="absolute inset-0 w-full h-full"
           />
         </motion.div>
         {/* Overlay for readability */}
@@ -399,14 +399,13 @@ export default function Home() {
                     }
                   }}
                 >
-                  <LazyImage
+                  <Image
                     src={dish.src}
                     alt={dish.alt}
                     width={750}
                     height={750}
                     className="object-contain pointer-events-none select-none"
-                    withFade={true}
-                    sizes={getSizes('100vw', '100vw', '750px')}
+                    wrapperClassName="relative"
                   />
                 </motion.div>
               );
@@ -430,14 +429,12 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
               >
-                <LazyImage
+                <Image
                   src="/chef-hero.jpg"
                   alt="Chef Rajesh Sherpa"
                   fill
                   className="object-cover object-center"
-                  withFade={true}
-                  withScaleUp={true}
-                  sizes={getSizes('100vw', '50vw', '33vw')}
+                  wrapperClassName="relative aspect-[6/5] w-[85%] md:w-full md:h-full md:aspect-auto max-w-sm mx-auto md:max-w-none rounded-lg overflow-hidden shadow-xl"
                 />
                 <div className="absolute inset-0 bg-everest-green/10 hover:bg-everest-green/0 transition-colors duration-500"></div>
                 <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-everest-green/40 to-transparent"></div>
