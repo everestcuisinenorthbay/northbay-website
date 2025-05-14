@@ -163,7 +163,7 @@ export default function Home() {
               animate="visible"
             >
           <motion.h1 
-            className="text-white font-normal leading-none font-serif mb-6 text-[5.8rem] xs:text-[6.2rem] sm:text-[6.5rem] md:text-[6.5rem] lg:text-[7.5rem] xl:text-[8.5rem]"
+            className="text-white font-normal leading-none font-serif mb-6 text-[5.5rem] xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem]"
             variants={fadeInUp}
           >
             <span className="block md:inline">Taste </span>
