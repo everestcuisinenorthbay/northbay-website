@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import LazyImage from './LazyImage';
+import { getImagePlaceholder } from '@/lib/imageUtils';
 
 interface MenuCardProps {
   name: string;
@@ -29,6 +31,10 @@ const MenuCard = ({
   const clampLength = 80;
   const isClamped = description.length > clampLength;
   const displayText = expanded || !isClamped ? description : description.slice(0, clampLength) + '...';
+  
+  // Generate a placeholder for the image
+  const placeholderDataUrl = getImagePlaceholder(300, 300);
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -39,13 +45,16 @@ const MenuCard = ({
     >
       {image ? (
         <div className="relative aspect-square w-full overflow-hidden">
-          <Image
+          <LazyImage
             src={image}
             alt={name}
             fill
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            placeholderColor="#F5F5F4"
+            withFade={true}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
-          <span className="absolute top-2 right-2 text-[#5C4033] font-medium bg-[#FEFAE0] px-2 py-0.5 rounded transition-colors duration-500 ease-out group-hover:bg-[#FEFAE0]/80 font-sans">{price}</span>
+          <span className="absolute top-2 right-2 text-[#5C4033] font-medium bg-[#FEFAE0] px-2 py-0.5 rounded transition-colors duration-500 ease-out group-hover:bg-[#FEFAE0]/80 font-sans z-10">{price}</span>
         </div>
       ) : (
         <div className="aspect-square w-full bg-gradient-to-r from-[#FEFAE0] to-[#FFF9F0] flex items-center justify-center relative overflow-hidden">

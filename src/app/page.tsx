@@ -4,6 +4,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
+import LazyImage from '@/components/ui/LazyImage';
+import { getSizes } from '@/lib/imageUtils';
 
 const dishes = [
   { src: '/dish1.png', alt: 'Dish 1' },
@@ -397,12 +399,14 @@ export default function Home() {
                     }
                   }}
                 >
-                  <Image
+                  <LazyImage
                     src={dish.src}
                     alt={dish.alt}
                     width={750}
                     height={750}
                     className="object-contain pointer-events-none select-none"
+                    withFade={true}
+                    sizes={getSizes('100vw', '100vw', '750px')}
                   />
                 </motion.div>
               );
@@ -426,11 +430,14 @@ export default function Home() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
               >
-                <Image
+                <LazyImage
                   src="/chef-hero.jpg"
                   alt="Chef Rajesh Sherpa"
                   fill
                   className="object-cover object-center"
+                  withFade={true}
+                  withScaleUp={true}
+                  sizes={getSizes('100vw', '50vw', '33vw')}
                 />
                 <div className="absolute inset-0 bg-everest-green/10 hover:bg-everest-green/0 transition-colors duration-500"></div>
                 <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-everest-green/40 to-transparent"></div>
