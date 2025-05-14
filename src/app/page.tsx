@@ -275,7 +275,7 @@ export default function Home() {
 
       {/* Carousel - Positioned to bridge hero and about sections */}
         <motion.div 
-        className="relative -mt-60 sm:-mt-72 md:-mt-80 lg:-mt-96 z-30 flex justify-center items-center mb-[-2rem] sm:mb-[-1rem] md:mb-[0] pointer-events-none pb-8 sm:pb-10"
+        className="relative -mt-60 sm:-mt-72 md:-mt-80 lg:-mt-96 z-30 flex justify-center items-center mb-[-2rem] sm:mb-[-1rem] md:mb-[0] pointer-events-none pb-8 sm:pb-10 overflow-x-hidden"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.8, duration: 0.8 }}
