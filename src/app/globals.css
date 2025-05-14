@@ -27,4 +27,16 @@
 @keyframes shine-move {
   0% { background-position: -220px 0; }
   100% { background-position: 220px 0; }
+}
+
+/* Custom MacBook Spacing Fix */
+.macbook-spacing-fix {
+  /* Base styles */
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1350px) {
+  .macbook-spacing-fix {
+    padding-top: 10rem !important; /* Dramatic effect for testing */
+    background-color: rgba(255, 0, 0, 0.1) !important; /* Light red background to confirm it's working */
+  }
 } 

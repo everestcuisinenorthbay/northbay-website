@@ -308,31 +308,10 @@ const menuCategories: MenuCategory[] = [
         imageUrl: '/images/tiger-shrimp.jpg'
       },
       {
-        id: 36,
-        name: 'Avocado Uramaki (8 Pcs)',
-        description: 'Avocado, mayo, tempura bits, and nori.',
-        price: 7.99,
-        imageUrl: '/images/Veg-tempura.jpg'
-      },
-      {
         id: 37,
         name: 'Tiger Shrimp Roll (6 Pcs)',
         description: 'Tiger shrimp, cucumber, lettuce, avocado, spicy sauce, tobiko, and tempura bits.',
         price: 13.99,
-        imageUrl: '/images/tiger-shrimp.jpg'
-      },
-      {
-        id: 38,
-        name: 'Spicy Tuna Roll (8 Pcs)',
-        description: 'Nori, spicy tuna, avocado, cucumber, tempura bits, tobiko, and sesame.',
-        price: 14.99,
-        imageUrl: '/images/spicy-tartare.jpg'
-      },
-      {
-        id: 39,
-        name: 'Everest Killer Roll (8 Pcs)',
-        description: 'Spicy salmon or spicy tuna with cucumber, avocado, shrimp tempura, sesame, teriyaki sauce, and mayo.',
-        price: 16.99,
         imageUrl: '/images/tiger-shrimp.jpg'
       },
       {
@@ -388,14 +367,14 @@ const menuCategories: MenuCategory[] = [
         name: 'Gorkha Sizzler Momo (Chicken or Veg)',
         description: 'Sizzling momo served in an iron pot with dipping sauce.',
         price: 16.99,
-        imageUrl: '/images/chicken-sizzler.jpg'
+        imageUrl: '/images/veg-sizzler.jpg'
       },
       {
         id: 33,
         name: 'Namche Chilli Momo (Chicken or Veg)',
         description: 'Momo tossed in spicy chilli sauce with Green Pepper, Onion & Tomato.',
         price: 16.99,
-        imageUrl: '/images/chicken-fried-momo.jpg'
+        imageUrl: '/images/veg-c-momo.jpg'
       },
       {
         id: 34,
@@ -684,14 +663,14 @@ const menuCategories: MenuCategory[] = [
         name: 'Yogurt Drink (Mohi)',
         description: '',
         price: 3.99,
-        imageUrl: '/images/daal.jpg'
+        imageUrl: '/images/mohi.jpg'
       },
       {
         id: 81,
         name: 'Mango Lassi',
         description: '',
         price: 4.99,
-        imageUrl: '/images/daal.jpg'
+        imageUrl: '/images/Mango-lassi.jpg'
       },
     ],
   },
@@ -810,6 +789,7 @@ const reorderedCategories: MenuCategory[] = [
 ].filter((c): c is MenuCategory => Boolean(c));
 
 export default function MenuPage() {
+  const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 50]);
   const [dietaryFilters, setDietaryFilters] = useState({
@@ -1045,8 +1025,9 @@ export default function MenuPage() {
               </div>
             </div>
             
+            {/* Menu Grid */}
             <div 
-              className={`grid grid-cols-1 md:grid-cols-4 gap-8 mt-6 transition-all duration-500 overflow-hidden ${
+              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6 transition-all duration-500 overflow-hidden ${
                 expandedCategories.includes(category.id) 
                   ? 'max-h-[5000px] opacity-100' 
                   : 'max-h-0 opacity-0 hidden'
