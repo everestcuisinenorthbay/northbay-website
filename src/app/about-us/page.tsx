@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import Image from '@/components/ui/Image';
 import Link from 'next/link';
 
 // Animation variants
@@ -258,9 +258,10 @@ export default function AboutUs() {
               <div className="aspect-[1/1] relative">
                 <Image
                   src="/Ramesh-Baniya.jpg"
-                  alt="Restaurant Manager"
+                  alt="Ramesh Baniya"
                   fill
-                  className="object-cover"
+                  className="object-cover object-center"
+                  wrapperClassName="relative w-full h-full"
                 />
               </div>
               <div className="p-6">

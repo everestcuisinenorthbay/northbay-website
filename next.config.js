@@ -12,7 +12,6 @@ const nextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   output: 'standalone',
-  swcMinify: true,
   poweredByHeader: false,
   compress: true,
   eslint: {

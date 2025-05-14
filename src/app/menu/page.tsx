@@ -314,6 +314,7 @@ const menuCategories: MenuCategory[] = [
         price: 13.99,
         imageUrl: '/images/tiger-shrimp.jpg'
       },
+
       {
         id: 40,
         name: 'Tokyo Sushi Platter',
