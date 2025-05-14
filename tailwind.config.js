@@ -26,6 +26,9 @@ module.exports = {
         '128': '32rem',
         '144': '36rem',
       },
+      screens: {
+        'only-xl': {'raw': '(min-width: 1280px) and (max-width: 1350px)'},
+      },
     },
   },
   plugins: [],
