@@ -67,13 +67,13 @@ export default function ContactPage() {
       <div className="bg-gradient-to-b from-everest-cream/50 to-white">
         <div className="container mx-auto px-4 md:px-6 py-16 md:py-20 relative max-w-6xl">
           {/* Contact Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-0">
             {/* Contact information card */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-tl-xl rounded-bl-xl lg:rounded-tr-none lg:rounded-br-none shadow-lg border border-gray-100 overflow-hidden z-10"
+              className="bg-white rounded-xl lg:rounded-tr-none lg:rounded-br-none shadow-lg border border-gray-100 overflow-hidden z-10"
             >
               <div className="bg-gradient-to-r from-everest-green to-emerald-700 p-6">
                 <h2 className="text-2xl font-serif text-white">Contact Information</h2>
@@ -242,7 +242,7 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="h-[60vh] lg:h-full rounded-tr-xl rounded-br-xl lg:rounded-tl-none lg:rounded-bl-none overflow-hidden shadow-lg border border-gray-100 relative -ml-px"
+              className="h-[50vh] lg:h-full rounded-xl lg:rounded-tl-none lg:rounded-bl-none overflow-hidden shadow-lg border border-gray-100 relative lg:-ml-px"
             >
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2799.9535765520136!2d-75.7973177!3d45.4346264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce044c841a4fe3%3A0xb3d20ba6de3520cc!2s1846%20Carling%20Ave%2C%20Ottawa%2C%20ON%20K2A%201E2%2C%20Canada!5e0!3m2!1sen!2sus!4v1722431485345!5m2!1sen!2sus"
@@ -257,15 +257,15 @@ export default function ContactPage() {
 
               {/* Get Directions button - positioned at bottom */}
               <div className="absolute bottom-4 left-4 right-4">
-              <Link 
-                href="https://maps.google.com/?q=1846+Carling+Ave,+Ottawa,+ON+K2A+1E2" 
-                target="_blank" 
-                  className="flex items-center justify-center gap-2 bg-everest-green hover:bg-everest-gold text-white px-6 py-3 rounded-lg transition-colors font-medium shadow-md"
-              >
-                  <MapPinIcon className="w-5 h-5" />
-                Get Directions
-              </Link>
-            </div>
+                <Link 
+                  href="https://maps.google.com/?q=1846+Carling+Ave,+Ottawa,+ON+K2A+1E2" 
+                  target="_blank" 
+                  className="flex items-center justify-center gap-2 bg-everest-green hover:bg-everest-gold text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg transition-colors font-medium shadow-md text-sm sm:text-base w-full sm:w-auto sm:inline-flex"
+                >
+                  <MapPinIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                  Get Directions
+                </Link>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -275,16 +275,16 @@ export default function ContactPage() {
       <div className="relative">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <Image
+          <Image 
             src="/delivery-background.png"
             alt="Food Delivery Background"
-            fill
+            fill 
             className="object-cover"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e1a]/95 to-everest-green/95 backdrop-blur-sm"></div>
         </div>
-
+        
         <div className="relative z-10 py-20 md:py-24">
           <div className="container mx-auto px-4 md:px-8">
             <motion.div 
@@ -304,7 +304,7 @@ export default function ContactPage() {
               <a 
                 href="https://www.ubereats.com/ca/store/everest-cuisine-ottawa/xc0tc89RU_m7jiz7ue_X0Q" 
                 target="_blank" 
-                rel="noopener noreferrer" 
+                rel="noopener noreferrer"
                 className="logo-shine group"
               >
                 <Image 
@@ -322,7 +322,7 @@ export default function ContactPage() {
               <a 
                 href="https://www.doordash.com/store/everest-cuisine-ottawa-27901530" 
                 target="_blank" 
-                rel="noopener noreferrer" 
+                rel="noopener noreferrer"
                 className="logo-shine group"
               >
                 <Image 
@@ -339,8 +339,8 @@ export default function ContactPage() {
               
               <a 
                 href="https://www.skipthedishes.com/everest-cuisine-ottawa" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+            target="_blank" 
+            rel="noopener noreferrer"
                 className="logo-shine group"
               >
                 <Image 
@@ -357,8 +357,8 @@ export default function ContactPage() {
               
               <a 
                 href="https://app.kash4meexpress.com/everestcuisine/ec/book" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+            target="_blank" 
+            rel="noopener noreferrer"
                 className="logo-shine group"
               >
                 <Image 
@@ -372,7 +372,7 @@ export default function ContactPage() {
                   }} 
                 />
               </a>
-            </div>
+        </div>
         
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -381,14 +381,11 @@ export default function ContactPage() {
               className="mt-12 text-center"
             >
               <span className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white/90 text-sm font-medium">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
                 Order for delivery or pickup directly through Kash4me
               </span>
             </motion.div>
-          </div>
-        </div>
+      </div>
+    </div>
       </div>
     </>
   );

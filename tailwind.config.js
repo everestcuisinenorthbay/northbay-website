@@ -9,9 +9,9 @@ module.exports = {
     extend: {
       fontFamily: {
         geist: ["Geist", "ui-sans-serif", "system-ui", "sans-serif"],
-        baskerville: ["Baskerville", "ui-serif", "Georgia", "serif"],
+        baskerville: ["Libre Baskerville", "Baskerville", "Times New Roman", "Times", "serif"],
         sans: ["Geist", "ui-sans-serif", "system-ui", "sans-serif"],
-        serif: ["Baskerville", "ui-serif", "Georgia", "serif"],
+        serif: ["Libre Baskerville", "Baskerville", "Times New Roman", "Times", "serif"],
       },
       colors: {
         everest: {

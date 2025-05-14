@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-
-const rubik = Rubik({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-rubik",
-});
+import "@fontsource/libre-baskerville/400.css";
+import "@fontsource/libre-baskerville/400-italic.css";
+import "@fontsource/libre-baskerville/700.css";
 
 export const metadata: Metadata = {
   title: "Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar",
@@ -32,9 +28,23 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link
+          rel="preload"
+          href="/fonts/libre-baskerville-v14-latin-regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/libre-baskerville-v14-latin-700.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
       </head>
       <body
-        className={`${rubik.variable} font-rubik antialiased flex flex-col min-h-screen`}
+        className={`antialiased flex flex-col min-h-screen overflow-x-hidden`}
       >
         <Header />
         <main className="flex-grow">

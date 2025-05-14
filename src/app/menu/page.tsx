@@ -1046,7 +1046,7 @@ export default function MenuPage() {
             </div>
             
             <div 
-              className={`grid grid-cols-2 md:grid-cols-4 gap-8 mt-6 transition-all duration-500 overflow-hidden ${
+              className={`grid grid-cols-1 md:grid-cols-4 gap-8 mt-6 transition-all duration-500 overflow-hidden ${
                 expandedCategories.includes(category.id) 
                   ? 'max-h-[5000px] opacity-100' 
                   : 'max-h-0 opacity-0 hidden'
@@ -1101,8 +1101,8 @@ export default function MenuPage() {
             <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
           </svg>
         </motion.a>
-      </div>
-
+        </div>
+        
       {/* Remember Us Banner */}
       <div className="relative">
         {/* Background Image */}
@@ -1115,8 +1115,8 @@ export default function MenuPage() {
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a2e1a]/95 to-everest-green/95 backdrop-blur-sm"></div>
-        </div>
-        
+          </div>
+          
         <div className="relative z-10 py-20 md:py-24">
           <div className="container mx-auto px-4 md:px-8">
             <motion.div 
@@ -1133,52 +1133,52 @@ export default function MenuPage() {
             </motion.div>
             
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-10 max-w-5xl mx-auto">
-              <div className="flex flex-col items-center text-center group">
+            <div className="flex flex-col items-center text-center group">
                 <div className="bg-white/10 rounded-full p-4 mb-4 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/20">
                   <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                  </svg>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
                 </div>
                 <span className="font-sans text-white font-medium text-lg">Catering</span>
-              </div>
-              
-              <div className="flex flex-col items-center text-center group">
+            </div>
+            
+            <div className="flex flex-col items-center text-center group">
                 <div className="bg-white/10 rounded-full p-4 mb-4 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/20">
                   <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
                 </div>
                 <span className="font-sans text-white font-medium text-lg">Event Services</span>
-              </div>
-              
-              <div className="flex flex-col items-center text-center group">
+            </div>
+            
+            <div className="flex flex-col items-center text-center group">
                 <div className="bg-white/10 rounded-full p-4 mb-4 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/20">
                   <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                  </svg>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
                 </div>
                 <span className="font-sans text-white font-medium text-lg">Frozen Mo:Mo</span>
-              </div>
-              
-              <div className="flex flex-col items-center text-center group">
+            </div>
+            
+            <div className="flex flex-col items-center text-center group">
                 <div className="bg-white/10 rounded-full p-4 mb-4 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/20">
                   <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                  </svg>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
                 </div>
                 <span className="font-sans text-white font-medium text-lg">Nepali Spices</span>
-              </div>
-              
-              <div className="flex flex-col items-center text-center group">
+            </div>
+            
+            <div className="flex flex-col items-center text-center group">
                 <div className="bg-white/10 rounded-full p-4 mb-4 backdrop-blur-sm transition-all duration-300 group-hover:bg-white/20">
                   <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                  </svg>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+              </svg>
                 </div>
                 <span className="font-sans text-white font-medium text-lg">Nepali Souvenirs</span>
-              </div>
             </div>
-        
+          </div>
+
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1192,7 +1192,7 @@ export default function MenuPage() {
                 Call us at 613-963-4406 for catering or event inquiries
               </span>
             </motion.div>
-          </div>
+              </div>
         </div>
       </div>
     </div>
