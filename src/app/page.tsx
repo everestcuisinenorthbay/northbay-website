@@ -163,7 +163,7 @@ export default function Home() {
               animate="visible"
             >
           <motion.h1 
-            className="text-white font-normal leading-none font-serif mb-6 text-[5.5rem] xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem]"
+            className="text-white font-normal leading-none font-serif mb-6 text-[5rem] xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem]"
             variants={fadeInUp}
           >
             <span className="block md:inline">Taste </span>
@@ -275,7 +275,7 @@ export default function Home() {
 
       {/* Carousel - Positioned to bridge hero and about sections */}
         <motion.div 
-        className="relative -mt-60 sm:-mt-72 md:-mt-80 lg:-mt-96 z-30 flex justify-center items-center mb-[-2rem] sm:mb-[-1rem] md:mb-[0] pointer-events-none pb-8 sm:pb-10 overflow-x-hidden"
+        className="relative -mt-60 sm:-mt-72 md:-mt-80 md:max-lg:-mt-[26rem] lg:-mt-96 z-30 flex justify-center items-center mb-[-2rem] sm:mb-[-1rem] md:mb-[0] pointer-events-none pb-8 sm:pb-10 overflow-x-hidden"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.8, duration: 0.8 }}
@@ -283,7 +283,7 @@ export default function Home() {
         <div className="relative w-full max-w-7xl px-4 sm:px-8">
           {/* Carousel Container */}
           <motion.div 
-            className="flex items-center justify-center h-[500px] sm:h-[550px] md:h-[600px] lg:h-[700px] relative pointer-events-auto"
+            className="flex items-center justify-center h-[500px] sm:h-[550px] md:h-[580px] lg:h-[700px] relative pointer-events-auto"
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
