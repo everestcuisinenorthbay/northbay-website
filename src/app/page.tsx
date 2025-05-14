@@ -31,7 +31,7 @@ const reviews = [
   },
   {
     id: 4,
-    text: "I&apos;ve gone here twice now and definitely want to go again! I love any kind of dumpling, and when I learned about momos I had to try some. Everest Cuisine is a cute spot and the serving of 10 momos is quite filling. The student menu portions are huge, so keep that in mind before ordering multiple things!",
+    text: "I have gone here twice now and definitely want to go again! I love any kind of dumpling, and when I learned about momos I had to try some. Everest Cuisine is a cute spot and the serving of 10 momos is quite filling. The student menu portions are huge, so keep that in mind before ordering multiple things!",
     author: "Sara Robinson",
     rating: 5,
   },
@@ -275,7 +275,7 @@ export default function Home() {
 
       {/* Carousel - Positioned to bridge hero and about sections */}
         <motion.div 
-        className="relative -mt-60 sm:-mt-72 md:-mt-80 md:max-lg:-mt-[26rem] lg:-mt-96 z-30 flex justify-center items-center mb-[-2rem] sm:mb-[-1rem] md:mb-[0] pointer-events-none pb-8 sm:pb-10 overflow-x-hidden"
+        className="relative -mt-60 sm:-mt-72 md:-mt-80 md:max-lg:-mt-[29rem] lg:-mt-96 z-30 flex justify-center items-center mb-[-2rem] sm:mb-[-1rem] md:mb-[0] pointer-events-none pb-8 sm:pb-10 overflow-x-hidden"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.8, duration: 0.8 }}
@@ -283,7 +283,7 @@ export default function Home() {
         <div className="relative w-full max-w-7xl px-4 sm:px-8">
           {/* Carousel Container */}
           <motion.div 
-            className="flex items-center justify-center h-[500px] sm:h-[550px] md:h-[580px] lg:h-[700px] relative pointer-events-auto"
+            className="flex items-center justify-center h-[500px] sm:h-[550px] md:h-[520px] md:max-lg:h-[520px] lg:h-[700px] relative pointer-events-auto"
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
