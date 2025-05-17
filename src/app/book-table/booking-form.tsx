@@ -85,48 +85,43 @@ export default function BookingForm() {
     setSubmitResult(null);
 
     try {
-      // In a real app, this would be a call to the Directus API
-      // await fetch('https://your-directus-instance/items/table_bookings', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Authorization': `Bearer ${process.env.NEXT_PUBLIC_DIRECTUS_API_TOKEN}`
-      //   },
-      //   body: JSON.stringify({
-      //     name: formData.name,
-      //     email: formData.email,
-      //     phone: formData.phone,
-      //     date: formData.date,
-      //     time: formData.time,
-      //     party_size: parseInt(formData.partySize),
-      //     notes: formData.notes,
-      //     status: 'pending'
-      //   })
-      // });
-
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      setSubmitResult({
-        success: true,
-        message: 'Your reservation has been submitted successfully. We will confirm your booking shortly.',
+      const response = await fetch('/api/book-table', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          date: formData.date,
+          time: formData.time,
+          partySize: parseInt(formData.partySize),
+          occasion: formData.occasion || undefined,
+          notes: formData.notes || undefined
+        }),
       });
-
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        date: '',
-        time: '',
-        partySize: '2',
-        notes: '',
-        occasion: '',
-      });
-    } catch (error) {
+      const result = await response.json();
+      if (result.success) {
+        setSubmitResult({
+          success: true,
+          message: 'Your reservation has been submitted successfully. We will confirm your booking shortly.',
+        });
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          date: '',
+          time: '',
+          partySize: '2',
+          notes: '',
+          occasion: '',
+        });
+      } else {
+        throw new Error(result.error || 'Unknown error');
+      }
+    } catch (error: any) {
       setSubmitResult({
         success: false,
-        message: 'Something went wrong. Please try again or call us directly.',
+        message: 'Something went wrong. Please try again or call us directly. Error: ' + error.message,
       });
     } finally {
       setIsSubmitting(false);

@@ -178,6 +178,11 @@ export default function Header() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/blog" className="text-everest-green hover:text-everest-gold py-2 font-semibold transition-colors text-base uppercase tracking-wide font-sans">
+                    Blog
+                  </Link>
+                </li>
+                <li>
                   <Link href="/book-table" className="text-everest-green hover:text-everest-gold py-2 font-semibold transition-colors text-base uppercase tracking-wide font-sans">
                     Book Table
                   </Link>
@@ -272,6 +277,15 @@ export default function Header() {
                 </motion.li>
                 <motion.li custom={2} variants={navItemVariants}>
                   <Link 
+                    href="/blog" 
+                    className="flex items-center justify-center py-3 text-everest-green font-medium transition-colors hover:text-everest-gold"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span>Blog</span>
+                  </Link>
+                </motion.li>
+                <motion.li custom={3} variants={navItemVariants}>
+                  <Link 
                     href="/book-table" 
                     className="flex items-center justify-center py-3 text-everest-green font-medium transition-colors hover:text-everest-gold"
                     onClick={() => setIsMenuOpen(false)}
@@ -279,7 +293,7 @@ export default function Header() {
                     <span>Book Table</span>
                   </Link>
                 </motion.li>
-                <motion.li custom={3} variants={navItemVariants}>
+                <motion.li custom={4} variants={navItemVariants}>
                   <Link 
                     href="/about-us" 
                     className="flex items-center justify-center py-3 text-everest-green font-medium transition-colors hover:text-everest-gold"
@@ -288,7 +302,7 @@ export default function Header() {
                     <span>About Us</span>
                   </Link>
                 </motion.li>
-                <motion.li custom={4} variants={navItemVariants}>
+                <motion.li custom={5} variants={navItemVariants}>
                   <Link 
                     href="/contact" 
                     className="flex items-center justify-center py-3 text-everest-green font-medium transition-colors hover:text-everest-gold"
@@ -297,7 +311,7 @@ export default function Header() {
                     <span>Contact</span>
                   </Link>
                 </motion.li>
-                <motion.li custom={5} variants={navItemVariants} className="pt-3">
+                <motion.li custom={6} variants={navItemVariants} className="pt-3">
                   <Link 
                     href="https://app.kash4meexpress.com/everestcuisine/ec/book/" 
                     target="_blank" 

@@ -1,12 +1,12 @@
 # Everest Cuisine Website
 
-A responsive, SEO-friendly website for Everest Cuisine, a Nepali-Indian restaurant, built with Next.js, Tailwind CSS, and Directus CMS.
+A responsive, SEO-friendly website for Everest Cuisine, a Nepali-Indian restaurant, built with Next.js, Tailwind CSS, and Sanity.io CMS.
 
 ## Features
 
 - Home page with hero section, featured menu items, and promotional content
-- Menu page displaying categorized food items from Directus CMS
-- Table booking system that posts to Directus collection
+- Menu page displaying categorized food items from Sanity.io CMS
+- Table booking system powered by Sanity.io
 - Contact page with Google Maps integration, hours, and contact info
 - Mobile-first responsive design
 - Performance optimized with Next.js App Router
@@ -14,7 +14,7 @@ A responsive, SEO-friendly website for Everest Cuisine, a Nepali-Indian restaura
 ## Tech Stack
 
 - **Frontend**: Next.js 14 (App Router), TypeScript, Tailwind CSS
-- **CMS**: Directus (headless)
+- **CMS**: Sanity.io (headless)
 - **Deployment**: Ready for Vercel deployment
 
 ## Getting Started
@@ -23,7 +23,7 @@ A responsive, SEO-friendly website for Everest Cuisine, a Nepali-Indian restaura
 
 - Node.js 18.x or later
 - npm or yarn
-- A Directus instance (self-hosted or cloud)
+- A Sanity.io project (see below)
 
 ### Installation
 
@@ -47,8 +47,8 @@ yarn
 Create a `.env.local` file in the root directory with the following variables:
 
 ```
-NEXT_PUBLIC_DIRECTUS_URL=https://your-directus-instance.com
-NEXT_PUBLIC_DIRECTUS_API_TOKEN=your_public_token_here
+NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
+NEXT_PUBLIC_SANITY_DATASET=production
 ```
 
 4. Run the development server:
@@ -61,47 +61,11 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the website.
 
-## Directus Setup
+## Sanity.io Setup
 
-### Collections
-
-Create the following collections in your Directus instance:
-
-1. **menu_categories**
-   - `id` (primary key)
-   - `name` (string)
-   - `sort` (integer)
-
-2. **menu_items**
-   - `id` (primary key)
-   - `name` (string)
-   - `description` (text)
-   - `price` (decimal)
-   - `category` (M2O relation to menu_categories)
-   - `image` (file)
-   - `is_vegetarian` (boolean)
-   - `is_spicy` (boolean)
-   - `is_gluten_free` (boolean)
-
-3. **promo_banners**
-   - `id` (primary key)
-   - `title` (string)
-   - `description` (text)
-   - `button_text` (string)
-   - `button_link` (string)
-   - `background_color` (string)
-   - `is_active` (boolean)
-
-4. **table_bookings**
-   - `id` (primary key)
-   - `name` (string)
-   - `email` (string)
-   - `phone` (string)
-   - `date` (date)
-   - `time` (string)
-   - `party_size` (integer)
-   - `notes` (text)
-   - `status` (string - pending/confirmed/cancelled)
+1. Create a project at [sanity.io](https://www.sanity.io/).
+2. Set up your schemas for menu items, categories, blog posts, and table bookings (see `src/sanity/schemaTypes`).
+3. Use the embedded Studio at `/studio` to manage your content.
 
 ## Project Structure
 
@@ -122,8 +86,9 @@ everest-website/
 │   │   │   └── Header.tsx
 │   │   └── ui/
 │   │       └── MenuCard.tsx
-│   └── lib/
-│       └── directus.ts
+│   └── sanity/
+│       ├── schemaTypes/
+│       └── ...
 ├── .env.local
 ├── package.json
 ├── tailwind.config.js

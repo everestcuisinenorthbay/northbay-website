@@ -3,791 +3,13 @@ import MenuCard from '@/components/ui/MenuCard';
 import { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { getMenuCategories, getAllMenuItems } from '@/lib/api';
+import { urlFor } from '@/lib/sanity';
+import { MenuCategory, MenuItem } from '@/types/sanity';
 
-interface MenuItem {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl?: string;
-  isVegetarian?: boolean;
-  isSpicy?: boolean;
-  isGlutenFree?: boolean;
+interface MenuItemWithCategory extends MenuItem {
+  category: string;
 }
-
-interface MenuCategory {
-  id: number;
-  name: string;
-  items: MenuItem[];
-}
-
-// For demo purposes only - in a real-world scenario this data would come from Directus CMS
-const menuCategories: MenuCategory[] = [
-  {
-    id: 1,
-    name: 'Appetizers',
-    items: [
-      {
-        id: 1,
-        name: 'Veg Samosa (2 pcs)',
-        description: 'Deep-fried pastry filled with spiced vegetables.',
-        price: 5.99,
-        isVegetarian: true,
-        imageUrl: '/images/Samosa.jpg'
-      },
-      {
-        id: 2,
-        name: 'Vegetable Tempura (7 pcs)',
-        description: 'Lightly battered and deep-fried assorted vegetables with tempura sauce.',
-        price: 6.99,
-        isVegetarian: true,
-        imageUrl: '/images/Veg-tempura.jpg'
-      },
-      {
-        id: 3,
-        name: 'Wai Wai Sadheko',
-        description: 'Popular Nepali noodles (Wai Wai) mixed with onion, tomato, and Nepali spices.',
-        price: 7.99,
-        isVegetarian: true,
-        imageUrl: '/images/wai-wai.jpg'
-      },
-      {
-        id: 4,
-        name: 'Bhatmas Sadheko',
-        description: 'Roasted Nepali soybeans mixed with ginger, green onion, cilantro, and Nepali spices.',
-        price: 7.99,
-        isVegetarian: true,
-        imageUrl: '/images/Aloo ko Achar.jpg'
-      },
-      {
-        id: 5,
-        name: 'Potato Wedges Chill',
-        description: 'Crispy potatoes coated in chili sauce.',
-        price: 9.99,
-        isVegetarian: true,
-        imageUrl: '/images/wedges.jpg'
-      },
-      {
-        id: 6,
-        name: 'Gobi 65',
-        description: 'Battered cauliflower florets deep-fried and sautéed with spices and herbs.',
-        price: 11.99,
-        isVegetarian: true,
-        isSpicy: true,
-        imageUrl: '/images/gobi-65.jpg'
-      },
-      {
-        id: 7,
-        name: 'Shrimp Tempura (7 pcs)',
-        description: 'Lightly battered shrimp deep-fried with tempura sauce.',
-        price: 12.99,
-        imageUrl: '/images/Shrimp-tempure.jpg'
-      },
-      {
-        id: 8,
-        name: 'Spicy Tartare (Tuna/Salmon) (5 pcs)',
-        description: 'Sashimi-grade tuna or salmon with spicy sauce, togarashi, crispy rice, and green onion.',
-        price: 14.99,
-        isSpicy: true,
-        imageUrl: '/images/spicy-tartare.jpg'
-      },
-      {
-        id: 9,
-        name: 'Chicken 65',
-        description: 'Battered deep-fried chicken sautéed with spices and herbs.',
-        price: 14.99,
-        isSpicy: true,
-        imageUrl: '/images/chicken-65-(4).jpg'
-      },
-      {
-        id: 10,
-        name: 'Buffalo Wings',
-        description: 'Deep-fried chicken wings coated in chili sauce.',
-        price: 14.99,
-        isSpicy: true,
-        imageUrl: '/images/Chicken-strips.jpg'
-      },
-      {
-        id: 11,
-        name: 'Calamari',
-        description: 'Battered squid deep-fried and sautéed with herbs and green chutney.',
-        price: 16.99,
-        imageUrl: '/images/calamari.jpg'
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Soup & Salad',
-    items: [
-      {
-        id: 12,
-        name: 'Mix Lentil Soup (Dal Tadka)',
-        description: 'Nepalese-style lentil soup with Himalayan herbs.',
-        price: 8.99,
-        isVegetarian: true,
-        imageUrl: '/images/daal.jpg'
-      },
-      {
-        id: 13,
-        name: 'Green Salad',
-        description: 'Cucumber, carrots, lettuce, tomato, edamame, sesame, tempura bits, and green onion.',
-        price: 8.99,
-        isVegetarian: true,
-        imageUrl: '/images/green-salad.jpg'
-      },
-      {
-        id: 14,
-        name: 'Crab Stick Salad',
-        description: 'Crab stick, lettuce, sesame, cucumber, edamame, three sauces, and tempura bits.',
-        price: 10.99,
-        imageUrl: '/images/crab-stick.jpg'
-      },
-      {
-        id: 15,
-        name: 'Vegetable Thukpa',
-        description: 'Popular Himalayan noodle soup with mixed vegetables and Nepali spices.',
-        price: 13.99,
-        isVegetarian: true,
-        imageUrl: '/images/veg-thukpa.jpg'
-      },
-      {
-        id: 16,
-        name: 'Chicken Thukpa',
-        description: 'Popular Himalayan noodle soup with chicken, mixed vegetables, and Nepali spices.',
-        price: 15.99,
-        imageUrl: '/images/chicken-thukpa.jpg'
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: 'Touch of Nepal',
-    items: [
-      {
-        id: 17,
-        name: 'Nepali Veg Thali Set',
-        description: 'Basmati rice with vegetable curry, papadum, potato pickle (aloo ko achar), pickled daikon (mula ko achar), broad leaf mustard (rayo saag), carrot, cucumber and lentil soup (dal), and homemade yogurt.',
-        price: 21.99,
-        isVegetarian: true,
-        imageUrl: '/images/veg-thali.jpg'
-      },
-      {
-        id: 18,
-        name: 'Nepali Non-Veg Thali Set (Chicken)',
-        description: 'Basmati rice with chicken curry, papadum, potato pickle (aloo ko achar), pickled daikon (mula ko achar), broad leaf mustard (rayo saag), carrot, cucumber and lentil soup (dal), and homemade yogurt.',
-        price: 24.99,
-        imageUrl: '/images/chicken-thali.jpg'
-      },
-      {
-        id: 19,
-        name: 'Nepali Non-Veg Thali Set with Goat Curry (Masu Bhat)',
-        description: 'Basmati rice with goat curry, papadum, potato pickle (aloo ko achar), pickled daikon (mula ko achar), broad leaf mustard (rayo saag), carrot, cucumber and lentil soup (dal), and homemade yogurt.',
-        price: 27.99,
-        imageUrl: '/images/mutton-thali.jpg'
-      },
-      {
-        id: 20,
-        name: 'Everest Sekuwa Set',
-        description: 'Tandoor grilled with Nepalese spices served with a mix of beaten rice (chiura) or puffed rice (bhuja), pickled daikon (mula ko achar), carrot, cucumber, spicy potato salad (aloo ko achar) and chili sauce.',
-        price: 25.99,
-        imageUrl: '/images/Sekuwa Set.jpg'
-      },
-      {
-        id: 21,
-        name: 'Himalayan Choila Set',
-        description: 'Marinated chicken roasted in a clay tandoor then coated with Nepalese spices served with a mix of beaten rice (chiura) or puffed rice (bhuja), pickled daikon (mula ko achar), carrot, crispy potato salad (aloo ko achar) and sweet and sour tangy hot plum sauce.',
-        price: 25.99,
-        imageUrl: '/images/Himalayan Chhoila Set.jpg'
-      },
-      {
-        id: 22,
-        name: 'Nepali Mixed Veg Curry',
-        description: 'Seasonal mixed vegetables in a rich Nepali gravy.',
-        price: 14.99,
-        isVegetarian: true,
-        imageUrl: '/images/veg-curry.jpg'
-      },
-      {
-        id: 23,
-        name: 'Chicken Sekuwa',
-        description: 'Popular marinated tandoori chicken with Nepali spices.',
-        price: 18.99,
-        imageUrl: '/images/chicken-sekuwa.jpg'
-      },
-      {
-        id: 24,
-        name: 'Chicken Chhoila',
-        description: 'Tandoori marinated chicken roasted in a clay tandoor oven coated with Nepali spices.',
-        price: 18.99,
-        imageUrl: '/images/chicken-choila.jpg'
-      },
-      {
-        id: 25,
-        name: 'Nepali Style Chicken Curry',
-        description: 'Marinated chicken cooked in a blend of aromatic spices.',
-        price: 19.99,
-        imageUrl: '/images/chicken-curry.jpg'
-      },
-      {
-        id: 26,
-        name: 'Nepali Style Goat Curry',
-        description: 'Marinated goat cooked in a blend of aromatic spices.',
-        price: 22.99,
-        imageUrl: '/images/Mutton-curry.jpg'
-      },
-    ],
-  },
-  {
-    id: 4,
-    name: 'Touch of India',
-    items: [
-      {
-        id: 46,
-        name: 'Vegetable Biryani',
-        description: 'Basmati rice with onions, green pepper, paneer, fresh vegetables, and raita.',
-        price: 16.99,
-        imageUrl: '/images/veg-biryani.jpg'
-      },
-      {
-        id: 47,
-        name: 'Butter Paneer',
-        description: 'Cubes of paneer simmered in buttered makhani gravy.',
-        price: 17.99,
-        imageUrl: '/images/butter-paneer.jpg'
-      },
-      {
-        id: 48,
-        name: 'Butter Chicken',
-        description: 'Creamy chicken curry with fragrant spices.',
-        price: 19.99,
-        imageUrl: '/images/butter-chicken.jpg'
-      },
-      {
-        id: 49,
-        name: 'Chicken Biryani',
-        description: 'Basmati rice with marinated chicken and Indian spices, served with raita.',
-        price: 22.99,
-        imageUrl: '/images/chicken-biryani.jpg'
-      },
-      {
-        id: 50,
-        name: 'Goat Biryani',
-        description: 'Basmati rice with marinated goat meat and Indian spices, served with raita.',
-        price: 24.99,
-        imageUrl: '/images/Goat-biryani.jpg'
-      },
-    ],
-  },
-  {
-    id: 5,
-    name: 'Sushi Bar',
-    items: [
-      {
-        id: 23,
-        name: 'Avocado Uramaki (8 pcs)',
-        description: 'Avocado, mayo, tempura bits, and nori.',
-        price: 7.99,
-        isVegetarian: true,
-        imageUrl: '/images/Veg-tempura.jpg'
-      },
-      {
-        id: 24,
-        name: 'Spicy Tuna Roll (8 pcs)',
-        description: 'Nori, spicy tuna, avocado, cucumber, tempura bits, tobiko, and sesame.',
-        price: 14.99,
-        isSpicy: true,
-        imageUrl: '/images/spicy-tartare.jpg'
-      },
-      {
-        id: 25,
-        name: 'Everest Killer Roll (8 pcs)',
-        description: 'Spicy salmon or spicy tuna with cucumber, avocado, shrimp tempura, sesame, teriyaki sauce, and mayo.',
-        price: 16.99,
-        isSpicy: true,
-        imageUrl: '/images/tiger-shrimp.jpg'
-      },
-      {
-        id: 37,
-        name: 'Tiger Shrimp Roll (6 Pcs)',
-        description: 'Tiger shrimp, cucumber, lettuce, avocado, spicy sauce, tobiko, and tempura bits.',
-        price: 13.99,
-        imageUrl: '/images/tiger-shrimp.jpg'
-      },
-
-      {
-        id: 40,
-        name: 'Tokyo Sushi Platter',
-        description: 'Includes Everest Killer Roll (8 pcs), Spicy Tuna Roll (8 pcs), Tiger Shrimp Roll (6 pcs), and Avocado Roll (8 pcs).',
-        price: 44.99,
-        imageUrl: '/images/tiger-shrimp.jpg'
-      },
-    ],
-  },
-  {
-    id: 6,
-    name: 'Authentic Nepalese Momo',
-    items: [
-      {
-        id: 27,
-        name: 'Kathmandu Steam Momo (Chicken or Veg)',
-        description: 'Traditional steamed momo served with dipping sauce.',
-        price: 14.99,
-        imageUrl: '/images/chicken-steam.jpg'
-      },
-      {
-        id: 28,
-        name: 'Pokhara Kothey Momo (Chicken or Veg)',
-        description: 'Pan-seared momo served with dipping sauce.',
-        price: 14.99,
-        imageUrl: '/images/chicken-kothey.jpg'
-      },
-      {
-        id: 29,
-        name: 'Makalu Fried Momo (Chicken or Veg)',
-        description: 'Deep-fried momo served with dipping sauce.',
-        price: 14.99,
-        imageUrl: '/images/chicken-fried-momo.jpg'
-      },
-      {
-        id: 30,
-        name: 'Everest Jhol Momo (Chicken or Veg)',
-        description: 'Steamed momo served in a mixed hot and spicy soup.',
-        price: 15.99,
-        imageUrl: '/images/chicken-steam.jpg'
-      },
-      {
-        id: 31,
-        name: 'Himalayan Choila Momo (Chicken or Veg)',
-        description: 'Steamed momo served with choila masala.',
-        price: 15.99,
-        imageUrl: '/images/chicken-chhoila.jpg'
-      },
-      {
-        id: 32,
-        name: 'Gorkha Sizzler Momo (Chicken or Veg)',
-        description: 'Sizzling momo served in an iron pot with dipping sauce.',
-        price: 16.99,
-        imageUrl: '/images/veg-sizzler.jpg'
-      },
-      {
-        id: 33,
-        name: 'Namche Chilli Momo (Chicken or Veg)',
-        description: 'Momo tossed in spicy chilli sauce with Green Pepper, Onion & Tomato.',
-        price: 16.99,
-        imageUrl: '/images/veg-c-momo.jpg'
-      },
-      {
-        id: 34,
-        name: 'Everest Tandoori Momo (Chicken or Veg)',
-        description: 'Steamed momo cooked in a tandoori oven, served with dipping sauce.',
-        price: 17.99,
-        imageUrl: '/images/chicken-tandoori.jpg'
-      },
-      {
-        id: 35,
-        name: 'Everest Combo Momo',
-        description: '(20 PCS) (CHICKEN OR VEG) Includes Steam Momo, Chholla Momo, Tandoori Momo, and Fried Momo (5 pcs each).',
-        price: 30.99,
-        imageUrl: '/images/chicken-platter.jpg'
-      },
-    ],
-  },
-  {
-    id: 7,
-    name: 'Wraps (Momo & Chowmein)',
-    items: [
-      {
-        id: 41,
-        name: 'Makalu Fried Momo Wrap (Chicken or Veg)',
-        description: 'Makalu fried momo, lettuce, spicy mayo, chili sauce, tortilla wrap, served with fries or salad.',
-        price: 13.99,
-        imageUrl: '/images/fried-wrap.jpg'
-      },
-      {
-        id: 42,
-        name: 'Everest Chow Mein Wrap (Veg)',
-        description: 'Chow mein, lettuce, chili sauce, mayo, tortilla wrap, served with fries or salad.',
-        price: 13.99,
-        imageUrl: '/images/chowmein-wrap.jpg'
-      },
-      {
-        id: 43,
-        name: 'Himalayan Chhoila Momo Wrap (Chicken or Veg)',
-        description: 'Himalayan chhoila momo, chili sauce, lettuce, tortilla wrap, served with fries or salad.',
-        price: 14.99,
-        imageUrl: '/images/chhoila-wrap.jpg'
-      },
-      {
-        id: 44,
-        name: 'Everest Chow Mein Wrap (Chicken)',
-        description: 'Chow mein, lettuce, chicken mayo, chili sauce, tortilla wrap, served with fries or salad.',
-        price: 14.99,
-        imageUrl: '/images/chowmein-wrap.jpg'
-      },
-      {
-        id: 45,
-        name: 'Everest Tandoori Momo Wrap (Chicken or Veg)',
-        description: 'Tandoori momo, lettuce, spicy mayo, chili sauce, tortilla wrap, served with fries or salad.',
-        price: 15.99,
-        imageUrl: '/images/tandoori-wrap.jpg'
-      },
-    ],
-  },
-  {
-    id: 10,
-    name: 'Student Menu',
-    items: [
-      {
-        id: 51,
-        name: 'Gobi Manchurian with Rice',
-        description: 'Fresh Basmati Rice, with Gobi Manchurian on top.',
-        price: 14.99,
-        imageUrl: '/images/gobi-manchurian-student.jpg'
-      },
-      {
-        id: 52,
-        name: 'Chicken Manchurian with Rice',
-        description: 'Fresh Basmati Rice, with Chicken Manchurian on top.',
-        price: 16.99,
-        imageUrl: '/images/chicken-manchurian-student.jpg'
-      },
-      {
-        id: 53,
-        name: 'Gobi 65 with Rice',
-        description: 'Fresh Basmati Rice with Gobi 65 on top.',
-        price: 14.99,
-        imageUrl: '/images/gobi-65-student.jpg'
-      },
-      {
-        id: 54,
-        name: 'Chicken 65 with Rice',
-        description: 'Fresh Basmati Rice with Chicken 65 on top.',
-        price: 16.99,
-        imageUrl: '/images/chicken-65-student.jpg'
-      },
-    ],
-  },
-  {
-    id: 11,
-    name: 'Touch of Indo-China (Hearty Hakka)',
-    items: [
-      {
-        id: 55,
-        name: 'Vegetable Fried Rice',
-        description: 'Basmati rice fried in a wok with mixed vegetables and various spices and herbs.',
-        price: 12.99,
-        imageUrl: '/images/veg-fried-rice.jpg'
-      },
-      {
-        id: 56,
-        name: 'Vegetable Chow Mein',
-        description: 'Wok stir-fried noodles and fresh vegetables with aromatic spices.',
-        price: 13.99,
-        imageUrl: '/images/Veg-chowmein.jpg'
-      },
-      {
-        id: 57,
-        name: 'Gobi Manchurian',
-        description: 'Crispy tender cauliflower tossed in an aromatic sweet, spicy, and salty sauce.',
-        price: 13.99,
-        imageUrl: '/images/gobi-manchurian.jpg'
-      },
-      {
-        id: 58,
-        name: 'Chicken Fried Rice',
-        description: 'Basmati rice wok-fried with chicken.',
-        price: 17.99,
-        imageUrl: '/images/Chicken-fried-rice.jpg'
-      },
-      {
-        id: 59,
-        name: 'Chicken Manchurian',
-        description: 'Crispy tender chicken tossed in an aromatic sweet, spicy, and salty sauce.',
-        price: 18.99,
-        imageUrl: '/images/chicken-manchurian.jpg'
-      },
-      {
-        id: 60,
-        name: 'Chicken Chow Mein',
-        description: 'Wok stir-fried noodles with chicken and fresh vegetables with aromatic spices.',
-        price: 18.99,
-        imageUrl: '/images/chicken-chowmein.jpg'
-      },
-      {
-        id: 61,
-        name: 'Chicken Chill',
-        description: 'Crispy battered fried chicken tossed in a sweet and tangy sauce with a hint of spices.',
-        price: 19.99,
-        imageUrl: '/images/chips-chilli.jpg'
-      },
-    ],
-  },
-  {
-    id: 12,
-    name: 'Side Orders',
-    items: [
-      {
-        id: 62,
-        name: 'Pau Qua (Sweet and Sour Sauce)',
-        description: 'Nepali hot plum (Lapsi) and spice sauce.',
-        price: 2.99,
-        imageUrl: '/images/pau-qua.jpg'
-      },
-      {
-        id: 63,
-        name: 'Papadum (2 Pcs)',
-        description: 'Plain lentil flatbread.',
-        price: 2.99,
-        imageUrl: '/images/Aloo ko Achar.jpg'
-      },
-      {
-        id: 64,
-        name: 'Plain Naan',
-        description: 'Freshly clay oven-baked naan dough (made of flour, yeast, milk, and butter).',
-        price: 2.99,
-        imageUrl: '/images/plain-naan.jpg'
-      },
-      {
-        id: 65,
-        name: 'Mula Ko Achar',
-        description: 'Authentic Nepalese style pickled daikon.',
-        price: 2.99,
-        imageUrl: '/images/mulako-achaar.jpg'
-      },
-      {
-        id: 66,
-        name: 'Raita with Chaat Masala',
-        description: '',
-        price: 3.99,
-        imageUrl: '/images/daal.jpg'
-      },
-      {
-        id: 67,
-        name: 'Plain Rice',
-        description: 'Sticky rice basmati rise.',
-        price: 3.99,
-        imageUrl: '/images/rice.jpg'
-      },
-      {
-        id: 68,
-        name: 'Sushi Rice',
-        description: 'Sushi rice seasoned with vinegar.',
-        price: 3.99,
-        imageUrl: '/images/rice.jpg'
-      },
-      {
-        id: 69,
-        name: 'Mix of Beaten Rice (Chiura) & Puffed Rice (Bhuja)',
-        description: '',
-        price: 3.99,
-        imageUrl: '/images/rice.jpg'
-      },
-      {
-        id: 70,
-        name: 'Garlic Naan',
-        description: 'Freshly tandoor clay oven-baked naan dough with garlic.',
-        price: 3.99,
-        imageUrl: '/images/garlic-naan.jpg'
-      },
-      {
-        id: 71,
-        name: 'Butter Naan',
-        description: 'Freshly cooked in a tandoor clay oven with butter.',
-        price: 3.99,
-        imageUrl: '/images/butter-naan.jpg'
-      },
-      {
-        id: 72,
-        name: 'Jeera Pulao Rice',
-        description: 'Aromatic basmati rice with butter and cumin.',
-        price: 4.99,
-        imageUrl: '/images/rice.jpg'
-      },
-      {
-        id: 73,
-        name: 'Garlic Butter Naan',
-        description: 'Freshly cooked in a tandoor clay oven with butter and garlic.',
-        price: 4.99,
-        imageUrl: '/images/garlic-butter-naan.jpg'
-      },
-      {
-        id: 74,
-        name: 'Aloo Ko Achar',
-        description: 'Boiled potatoes with authentic Nepalese spices and dipping sauce.',
-        price: 6.99,
-        imageUrl: '/images/Aloo ko Achar.jpg'
-      },
-    ],
-  },
-  {
-    id: 13,
-    name: 'Soft Drinks & Tea',
-    items: [
-      {
-        id: 75,
-        name: 'Green Tea',
-        description: '',
-        price: 2.49,
-        imageUrl: '/images/green-tea.jpg'
-      },
-      {
-        id: 76,
-        name: 'Nepali Aromatic Milk Tea (Chai/Chiya)',
-        description: '',
-        price: 2.99,
-        imageUrl: '/images/milk-tea.jpg'
-      },
-      {
-        id: 77,
-        name: 'Pops',
-        description: '',
-        price: 2.99,
-        imageUrl: '/images/pops.jpg'
-      },
-      {
-        id: 78,
-        name: 'Bottled Water',
-        description: '',
-        price: 2.99,
-        imageUrl: '/images/water.jpg'
-      },
-      {
-        id: 79,
-        name: 'Juice (Apple or Orange)',
-        description: '',
-        price: 3.99,
-        imageUrl: '/images/Apple-juice.jpg'
-      },
-      {
-        id: 80,
-        name: 'Yogurt Drink (Mohi)',
-        description: '',
-        price: 3.99,
-        imageUrl: '/images/mohi.jpg'
-      },
-      {
-        id: 81,
-        name: 'Mango Lassi',
-        description: '',
-        price: 4.99,
-        imageUrl: '/images/Mango-lassi.jpg'
-      },
-    ],
-  },
-  {
-    id: 14,
-    name: 'Kids Menu',
-    items: [
-      {
-        id: 82,
-        name: 'Potato Fries',
-        description: '',
-        price: 4.99,
-        imageUrl: '/images/fries.jpg'
-      },
-      {
-        id: 83,
-        name: 'Potato Wedges',
-        description: '',
-        price: 5.49,
-        imageUrl: '/images/wedges.jpg'
-      },
-      {
-        id: 84,
-        name: 'Chicken Strips with Potato Wedges or Fries',
-        description: '',
-        price: 6.99,
-        imageUrl: '/images/Chicken-strips.jpg'
-      },
-      {
-        id: 85,
-        name: 'Kids Pizza',
-        description: 'Mozzarella cheese with pizza sauce.',
-        price: 8.99,
-        imageUrl: '/images/veg-platter.jpg'
-      },
-      {
-        id: 86,
-        name: 'Kids Veg Fried Rice',
-        description: 'Basmati rice wok-fried with assorted vegetables.',
-        price: 9.99,
-        imageUrl: '/images/kids-veg-rice.jpg'
-      },
-      {
-        id: 87,
-        name: 'Kids Veg Chow Mein',
-        description: 'Wok stir-fried noodles with fresh vegetables and aromatic spices.',
-        price: 10.99,
-        imageUrl: '/images/Kids-veg-chowmein.jpg'
-      },
-      {
-        id: 88,
-        name: 'Kids Chicken Fried Rice',
-        description: 'Basmati rice wok-fried with chicken.',
-        price: 10.99,
-        imageUrl: '/images/kids-chicken-rice.jpg'
-      },
-      {
-        id: 89,
-        name: 'Kids Chicken Chow Mein',
-        description: 'Wok stir-fried noodles with fresh vegetables and aromatic spices.',
-        price: 11.99,
-        imageUrl: '/images/Kids-chicken-chowmein.jpg'
-      },
-    ],
-  },
-  {
-    id: 15,
-    name: 'Desserts',
-    items: [
-      {
-        id: 90,
-        name: 'Lalmohan with Yogurt',
-        description: '',
-        price: 4.99,
-        imageUrl: '/images/lalmohan.jpg'
-      },
-      {
-        id: 91,
-        name: 'Rasmalai with Shredded Coconut',
-        description: '',
-        price: 4.99,
-        imageUrl: '/images/lalmohan.jpg'
-      },
-      {
-        id: 92,
-        name: 'Laddu',
-        description: 'Spherical sweet from the Indian subcontinent made of various ingredients and sugar syrup.',
-        price: 4.99,
-        imageUrl: '/images/laddu.jpg'
-      },
-      {
-        id: 93,
-        name: 'Ice Cream',
-        description: '(Choice of Vanilla or Chocolate) with Caramel syrup & shredded coconut on top.',
-        price: 4.99,
-        imageUrl: '/images/vanilla.jpg'
-      },
-    ],
-  },
-];
-
-const reorderedCategories: MenuCategory[] = [
-  menuCategories.find(c => c.name === 'Appetizers'),
-  menuCategories.find(c => c.name === 'Soup & Salad'),
-  menuCategories.find(c => c.name === 'Touch of Nepal'),
-  menuCategories.find(c => c.name === 'Authentic Nepalese Momo'),
-  menuCategories.find(c => c.name === 'Sushi Bar'),
-  menuCategories.find(c => c.name === 'Wraps (Momo & Chowmein)'),
-  menuCategories.find(c => c.name === 'Touch of India'),
-  menuCategories.find(c => c.name === 'Student Menu'),
-  menuCategories.find(c => c.name === 'Touch of Indo-China (Hearty Hakka)'),
-  menuCategories.find(c => c.name === 'Kids Menu'),
-  menuCategories.find(c => c.name === 'Side Orders'),
-  menuCategories.find(c => c.name === 'Desserts'),
-  menuCategories.find(c => c.name === 'Soft Drinks & Tea'),
-].filter((c): c is MenuCategory => Boolean(c));
 
 export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -799,16 +21,37 @@ export default function MenuPage() {
     glutenFree: false,
   });
   const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'name-asc'>('name-asc');
-  const [expandedCategories, setExpandedCategories] = useState<number[]>([1]);
+  const [expandedCategories, setExpandedCategories] = useState<string[]>([]);
+  const [menuCategories, setMenuCategories] = useState<MenuCategory[]>([]);
+  const [allMenuItems, setAllMenuItems] = useState<MenuItemWithCategory[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Flatten all menu items for filtering
-  const allMenuItems = useMemo(() => {
-    return reorderedCategories.flatMap(category => 
-      category.items.map(item => ({
-        ...item,
-        category: category.name
-      }))
-    );
+  useEffect(() => {
+    async function fetchMenuData() {
+      try {
+        setIsLoading(true);
+        const categories = await getMenuCategories();
+        const items = await getAllMenuItems();
+        
+        console.log('Fetched categories:', categories);
+        console.log('Fetched items:', items);
+        
+        setMenuCategories(categories);
+        setAllMenuItems(items as MenuItemWithCategory[]);
+        
+        // Set the first category as expanded by default
+        if (categories.length > 0) {
+          setExpandedCategories([categories[0]._id]);
+        }
+        
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching menu data:', error);
+        setIsLoading(false);
+      }
+    }
+    
+    fetchMenuData();
   }, []);
 
   // Filter and sort items
@@ -840,16 +83,15 @@ export default function MenuPage() {
       });
   }, [allMenuItems, searchQuery, priceRange, dietaryFilters, sortBy]);
 
-  // Group filtered items by category, preserving the order in reorderedCategories
+  // Group filtered items by category, preserving the order in menuCategories
   const filteredCategories = useMemo(() => {
-    return reorderedCategories
+    return menuCategories
       .map((category) => ({
-        id: category.id,
-        name: category.name,
-        items: filteredItems.filter(item => item.category === category.name)
+        ...category,
+        menuItems: filteredItems.filter(item => item.category === category.name)
       }))
-      .filter(category => category.items.length > 0);
-  }, [filteredItems, reorderedCategories]);
+      .filter(category => category.menuItems.length > 0);
+  }, [filteredItems, menuCategories]);
 
   // useEffect block here
   useEffect(() => {
@@ -860,20 +102,32 @@ export default function MenuPage() {
       !dietaryFilters.spicy &&
       !dietaryFilters.glutenFree &&
       sortBy === 'name-asc';
-    if (isDefault) {
-      setExpandedCategories([1]);
-    } else {
-      setExpandedCategories(filteredCategories.map(category => category.id));
+    
+    if (isDefault && menuCategories.length > 0) {
+      setExpandedCategories([menuCategories[0]._id]);
+    } else if (filteredCategories.length > 0) {
+      setExpandedCategories(filteredCategories.map(category => category._id));
     }
-  }, [searchQuery, priceRange, dietaryFilters, sortBy, filteredCategories]);
+  }, [searchQuery, priceRange, dietaryFilters, sortBy, filteredCategories, menuCategories]);
 
-  const toggleCategory = (categoryId: number) => {
+  const toggleCategory = (categoryId: string) => {
     setExpandedCategories(prev => 
       prev.includes(categoryId) 
         ? prev.filter(id => id !== categoryId)
         : [...prev, categoryId]
     );
   };
+
+  if (isLoading) {
+    return (
+      <div className="bg-[#FFF9F0] min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-[#D4A373] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg text-[#5C4033]">Loading menu...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#FFF9F0] min-h-screen">
@@ -1003,20 +257,20 @@ export default function MenuPage() {
       
         {/* Menu Categories */}
         {filteredCategories.map((category) => (
-          <section key={category.id} className="mb-4">
+          <section key={category._id} className="mb-4">
             <div 
               className="flex items-center justify-between py-6 px-4 bg-white/40 backdrop-blur-sm rounded-xl cursor-pointer border border-[#D4A373]/10 transition-all duration-300 hover:bg-white/50"
-              onClick={() => toggleCategory(category.id)}
+              onClick={() => toggleCategory(category._id)}
             >
               <h2 className="text-2xl font-normal text-[#2C1810] font-baskerville">
                 {category.name}
                 <span className="text-[#D4A373] ml-2 text-base">
-                  ({category.items.length} items)
+                  ({category.menuItems.length} items)
                 </span>
               </h2>
               <div className="flex items-center gap-3">
                 <svg 
-                  className={`w-6 h-6 text-[#D4A373] transition-transform duration-300 ${expandedCategories.includes(category.id) ? 'transform rotate-180' : ''}`} 
+                  className={`w-6 h-6 text-[#D4A373] transition-transform duration-300 ${expandedCategories.includes(category._id) ? 'transform rotate-180' : ''}`} 
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
@@ -1029,21 +283,21 @@ export default function MenuPage() {
             {/* Menu Grid */}
             <div 
               className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6 transition-all duration-500 overflow-hidden ${
-                expandedCategories.includes(category.id) 
+                expandedCategories.includes(category._id) 
                   ? 'max-h-[5000px] opacity-100' 
                   : 'max-h-0 opacity-0 hidden'
               }`}
             >
-              {category.items.map((item) => (
+              {category.menuItems.map((item) => (
                 <MenuCard
-                  key={item.id}
+                  key={item._id}
                   name={item.name}
                   description={item.description}
                   price={`$${item.price.toFixed(2)}`}
                   isVegetarian={item.isVegetarian}
                   isSpicy={item.isSpicy}
                   isGlutenFree={item.isGlutenFree}
-                  image={item.imageUrl}
+                  image={item.image ? urlFor(item.image).url() : undefined}
                   className="text-sm"
                 />
               ))}
