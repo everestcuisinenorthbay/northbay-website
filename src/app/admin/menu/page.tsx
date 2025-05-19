@@ -222,7 +222,7 @@ export default function MenuManagementPage() {
                   <div className="w-24 h-24 relative flex-shrink-0 rounded-md overflow-hidden bg-gray-100 mr-4">
                     {item.image ? (
                       <img
-                        src={urlFor(item.image).width(96).height(96).url()}
+                        src={urlFor(item.image).url()}
                         alt={item.name}
                         className="w-full h-full object-cover"
                       />
