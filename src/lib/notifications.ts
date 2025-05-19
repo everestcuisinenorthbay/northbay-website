@@ -1,9 +1,9 @@
 // Utilities for sending notifications (Pushover and Email)
 
 // Pushover configuration with the provided token and key
-const PUSHOVER_TOKEN = 'avs15sc1u3abr7h5dtcjfygj16ry1k';
-const PUSHOVER_USER_KEY = 'uzt9y1ret78bb85crgzr3n2gerky1n';
-const ADMIN_EMAIL = 'winggindsa@gmail.com';
+const PUSHOVER_TOKEN = process.env.PUSHOVER_TOKEN;
+const PUSHOVER_USER_KEY = process.env.PUSHOVER_USER_KEY;
+const ADMIN_EMAIL = 'everestcuisineottawa@gmail.com'; // Admin email for notifications
 
 /**
  * Send a Pushover notification
@@ -13,6 +13,10 @@ export async function sendPushoverNotification(
   message: string, 
   priority: number = 0
 ) {
+  if (!PUSHOVER_TOKEN || !PUSHOVER_USER_KEY) {
+    console.warn('Pushover token or user key is not configured. Skipping notification.');
+    return false;
+  }
   try {
     const response = await fetch('https://api.pushover.net/1/messages.json', {
       method: 'POST',
@@ -34,7 +38,7 @@ export async function sendPushoverNotification(
       console.error('Pushover notification failed:', data);
       return false;
     }
-    
+    console.log('Pushover notification sent successfully.');
     return true;
   } catch (error) {
     console.error('Error sending Pushover notification:', error);
@@ -43,15 +47,16 @@ export async function sendPushoverNotification(
 }
 
 /**
- * Send an email notification
- * Note: This requires a server-side email service like SendGrid, AWS SES, etc.
- * For demonstration, we'll log the email and call an external API
+ * Send an email notification using the API route
  */
-export async function sendEmail(to: string, subject: string, html: string) {
+export async function sendEmail(to: string, subject: string, html: string, from?: string) {
   try {
-    // In production, you would integrate with an email service API here
-    // For demonstration purposes, we'll use a serverless function or API route
-    const response = await fetch('/api/send-email', {
+    // Use absolute URL for server-side fetch
+    const baseUrl = process.env.NEXT_PUBLIC_WEBSITE_URL;
+    if (!baseUrl) {
+      throw new Error('NEXT_PUBLIC_WEBSITE_URL environment variable is not set!');
+    }
+    const response = await fetch(`${baseUrl}/api/send-email`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -60,17 +65,21 @@ export async function sendEmail(to: string, subject: string, html: string) {
         to,
         subject,
         html,
+        from,
       }),
     });
+
+    const data = await response.json();
     
     if (!response.ok) {
-      console.error('Email notification failed');
+      console.error('Email sending failed:', data);
       return false;
     }
     
+    console.log(`Email sent successfully to ${to} with subject "${subject}"`);
     return true;
   } catch (error) {
-    console.error('Error sending email notification:', error);
+    console.error(`Error sending email to ${to}:`, error);
     return false;
   }
 }
@@ -102,32 +111,43 @@ export function sendBookingConfirmationEmail(
   const [hours, minutes] = time.split(':');
   const hour = parseInt(hours);
   const ampm = hour >= 12 ? 'PM' : 'AM';
-  const hour12 = hour % 12 || 12;
+  const hour12 = hour % 12 || 12; // Convert 0 to 12 for midnight/noon
   const formattedTime = `${hour12}:${minutes} ${ampm}`;
   
   const subject = 'Your Reservation at Everest Cuisine is Confirmed';
   
+  const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL;
+  if (!websiteUrl) {
+    throw new Error('NEXT_PUBLIC_WEBSITE_URL environment variable is not set!');
+  }
+  const contactPhoneNumber = '613-963-4406'; // Or use an env variable
+
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #2D5034;">Your Reservation is Confirmed!</h2>
-      <p>Dear ${name},</p>
-      <p>We're excited to confirm your reservation at Everest Cuisine:</p>
-      
-      <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
-        <p><strong>Date:</strong> ${formattedDate}</p>
-        <p><strong>Time:</strong> ${formattedTime}</p>
-        <p><strong>Party Size:</strong> ${partySize} ${partySize === 1 ? 'person' : 'people'}</p>
-        ${occasion ? `<p><strong>Special Occasion:</strong> ${occasion}</p>` : ''}
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 20px auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+      <div style="background-color: #0A2E1A; color: white; padding: 25px; text-align: center;">
+        <h1 style="margin: 0; font-size: 28px; font-weight: bold;">Everest Cuisine</h1>
       </div>
-      
-      <p>If you need to make any changes to your reservation, please call us at (123) 456-7890.</p>
-      
-      <p>We look forward to serving you!</p>
-      
-      <p>Warm regards,<br>The Everest Cuisine Team</p>
-      
-      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #666;">
-        <p>Everest Cuisine<br>123 Main Street, Toronto, ON M4B 1B3<br>Phone: (123) 456-7890</p>
+      <div style="padding: 25px 30px; color: #333;">
+        <h2 style="color: #0A2E1A; font-size: 22px; margin-top: 0;">Your Reservation is Confirmed!</h2>
+        <p style="font-size: 16px; line-height: 1.6;">Dear ${name},</p>
+        <p style="font-size: 16px; line-height: 1.6;">We're excited to confirm your reservation at Everest Cuisine:</p>
+        
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 6px; margin: 25px 0; border-left: 4px solid #D4A373;">
+          <p style="margin: 10px 0; font-size: 16px;"><strong>Date:</strong> ${formattedDate}</p>
+          <p style="margin: 10px 0; font-size: 16px;"><strong>Time:</strong> ${formattedTime}</p>
+          <p style="margin: 10px 0; font-size: 16px;"><strong>Party Size:</strong> ${partySize} ${partySize === 1 ? 'person' : 'people'}</p>
+          ${occasion ? `<p style="margin: 10px 0; font-size: 16px;"><strong>Special Occasion:</strong> ${occasion}</p>` : ''}
+        </div>
+        
+        <p style="font-size: 16px; line-height: 1.6;">If you need to make any changes to your reservation, or if you have any questions, please call us at <a href="tel:${contactPhoneNumber}" style="color: #D4A373; text-decoration: none; font-weight: bold;">${contactPhoneNumber}</a>.</p>
+        
+        <p style="font-size: 16px; line-height: 1.6;">We look forward to serving you!</p>
+        
+        <p style="font-size: 16px; line-height: 1.6; margin-top: 25px;">Warm regards,<br>The Everest Cuisine Team</p>
+      </div>
+      <div style="background-color: #f1f1f1; padding: 20px 30px; font-size: 13px; color: #555; text-align: center;">
+        <p style="margin: 5px 0;">Everest Cuisine<br>1846 Carling Ave, Ottawa, ON K2A 1E2</p>
+        <p style="margin: 5px 0;">Phone: ${contactPhoneNumber} | Website: <a href="${websiteUrl}" style="color: #D4A373; text-decoration: none;">${websiteUrl}</a></p>
       </div>
     </div>
   `;
@@ -165,39 +185,55 @@ export function sendBookingNotificationToAdmin(
   const [hours, minutes] = time.split(':');
   const hour = parseInt(hours);
   const ampm = hour >= 12 ? 'PM' : 'AM';
-  const hour12 = hour % 12 || 12;
+  const hour12 = hour % 12 || 12; // Convert 0 to 12 for midnight/noon
   const formattedTime = `${hour12}:${minutes} ${ampm}`;
   
-  // 1. Send pushover notification
-  sendPushoverNotification(
-    'New Reservation',
-    `${name} has made a reservation for ${partySize} on ${formattedDate} at ${formattedTime}.`
-  );
+  const websiteUrl = process.env.NEXT_PUBLIC_WEBSITE_URL;
+  if (!websiteUrl) {
+    throw new Error('NEXT_PUBLIC_WEBSITE_URL environment variable is not set!');
+  }
+  const adminBookingLink = `${websiteUrl}/admin/bookings`; // Assuming an admin path
+
+  // 1. Send pushover notification if configured
+  if (PUSHOVER_TOKEN && PUSHOVER_USER_KEY) {
+    sendPushoverNotification(
+      'New Reservation',
+      `${name} has made a reservation for ${partySize} on ${formattedDate} at ${formattedTime}. Notes: ${notes || 'N/A'}`
+    );
+  }
   
   // 2. Send email notification
-  const subject = `New Reservation: ${name} - ${formattedDate}`;
+  const subject = `New Reservation: ${name} - ${formattedDate} at ${formattedTime}`;
   
   const html = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #2D5034;">New Reservation</h2>
-      
-      <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
-        <p><strong>Booking ID:</strong> ${_id}</p>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Date:</strong> ${formattedDate}</p>
-        <p><strong>Time:</strong> ${formattedTime}</p>
-        <p><strong>Party Size:</strong> ${partySize} ${partySize === 1 ? 'person' : 'people'}</p>
-        ${occasion ? `<p><strong>Special Occasion:</strong> ${occasion}</p>` : ''}
-        ${notes ? `<p><strong>Notes:</strong> ${notes}</p>` : ''}
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 20px auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+      <div style="background-color: #D4A373; color: #0A2E1A; padding: 20px; text-align: center;">
+        <h1 style="margin: 0; font-size: 26px; font-weight: bold;">New Table Reservation</h1>
       </div>
-      
-      <p>
-        <a href="https://everest-cuisine.com/admin/bookings" style="display: inline-block; background-color: #2D5034; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px;">
-          Manage Reservations
-        </a>
-      </p>
+      <div style="padding: 25px 30px; color: #333;">
+        <h2 style="color: #0A2E1A; font-size: 20px; margin-top: 0;">A new table reservation has been submitted:</h2>
+        
+        <table style="width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 15px;">
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555; width: 150px;">Booking ID:</td><td style="padding: 10px 0;">${_id}</td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">Name:</td><td style="padding: 10px 0;">${name}</td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">Email:</td><td style="padding: 10px 0;"><a href="mailto:${email}" style="color: #D4A373; text-decoration: none;">${email}</a></td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">Phone:</td><td style="padding: 10px 0;"><a href="tel:${phone}" style="color: #D4A373; text-decoration: none;">${phone}</a></td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">Date:</td><td style="padding: 10px 0;">${formattedDate}</td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">Time:</td><td style="padding: 10px 0;">${formattedTime}</td></tr>
+          <tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">Party Size:</td><td style="padding: 10px 0;">${partySize} ${partySize === 1 ? 'person' : 'people'}</td></tr>
+          ${occasion ? `<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">Occasion:</td><td style="padding: 10px 0;">${occasion}</td></tr>` : ''}
+          ${notes ? `<tr style="border-bottom: 1px solid #eee;"><td style="padding: 10px 0; font-weight: bold; color: #555;">Notes:</td><td style="padding: 10px 0;">${notes}</td></tr>` : ''}
+        </table>
+        
+        <div style="text-align: center; margin-top: 30px;">
+          <a href="${adminBookingLink}" target="_blank" style="display: inline-block; background-color: #0A2E1A; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: bold;">
+            Manage Reservations
+          </a>
+        </div>
+      </div>
+       <div style="background-color: #f1f1f1; padding: 15px 30px; font-size: 12px; color: #555; text-align: center;">
+        <p style="margin: 0;">This is an automated notification from ${websiteUrl}</p>
+      </div>
     </div>
   `;
   
