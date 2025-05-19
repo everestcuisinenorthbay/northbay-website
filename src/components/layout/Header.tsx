@@ -27,7 +27,7 @@ export default function Header() {
   // Handle window resize - close mobile menu on desktop widths
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768 && isMenuOpen) {
+      if (window.innerWidth >= 1024 && isMenuOpen) {
         setIsMenuOpen(false);
       }
     };
@@ -165,7 +165,7 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center font-sans">
+            <nav className="hidden lg:flex items-center font-sans">
               <ul className="flex space-x-8 font-sans">
                 <li>
                   <Link href="/" className="text-everest-green hover:text-everest-gold py-2 font-semibold transition-colors text-base uppercase tracking-wide font-sans">
@@ -212,7 +212,7 @@ export default function Header() {
 
             {/* Mobile Menu Button with animation */}
             <motion.button 
-              className="md:hidden bg-everest-green/5 hover:bg-everest-green/10 p-2 rounded-md text-everest-green transition-colors"
+              className="lg:hidden bg-everest-green/5 hover:bg-everest-green/10 p-2 rounded-md text-everest-green transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle menu"
@@ -249,7 +249,7 @@ export default function Header() {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
-            className="md:hidden bg-gradient-to-b from-everest-cream to-everest-cream/95 border-t border-everest-gold/40 overflow-hidden z-50"
+            className="lg:hidden bg-gradient-to-b from-everest-cream to-everest-cream/95 border-t border-everest-gold/40 overflow-hidden z-50"
             initial="closed"
             animate="open"
             exit="closed"
