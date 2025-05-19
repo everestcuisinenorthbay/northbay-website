@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { sanityClient } from '@/lib/sanity';
+import { getSanityClientWithAuth, clearSanityAuthClient } from '@/lib/sanityClientWithAuth';
 
 const navigation = [
   {
@@ -110,97 +111,114 @@ const navigation = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Try to fetch something that requires authentication
-        await sanityClient.fetch('*[_type == "tableBooking"][0...1]');
-        setIsAuthenticated(true);
+        setIsLoading(true);
+        
+        if (pathname === '/admin/login') {
+          setIsLoading(false);
+          return;
+        }
+        
+        // Check for our new authentication marker
+        const isAuthenticatedMarker = localStorage.getItem('admin-authenticated');
+        
+        if (isAuthenticatedMarker === 'true') {
+          setIsAuthenticated(true);
+        } else {
+          // No valid marker, redirect to login
+          if (pathname !== '/admin/login') {
+            router.push('/admin/login');
+          }
+          setIsAuthenticated(false);
+        }
+        
       } catch (err) {
-        console.error('Authentication error:', err);
-        setError('Authentication failed. Check your Sanity token.');
+        console.error('Authentication check error:', err);
+        setError('Error checking authentication status. Please try logging in again.');
         setIsAuthenticated(false);
+        
+        // Clear any potentially stale auth markers
+        localStorage.removeItem('admin-authenticated');
+        localStorage.removeItem('admin-user'); // Also clear user info
+        clearSanityAuthClient(); // Clear any Sanity specific auth state
+        
+        if (pathname !== '/admin/login') {
+          router.push('/admin/login');
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     checkAuth();
-  }, []);
+  }, [pathname, router]);
+
+  const handleLogout = () => {
+    // Clear our new authentication markers
+    localStorage.removeItem('admin-authenticated');
+    localStorage.removeItem('admin-user');
+    clearSanityAuthClient(); // Clear Sanity specific auth state
+    router.push('/admin/login');
+  };
+
+  // If we're on the login page, just render children (the login page)
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="text-center bg-white p-8 rounded-lg shadow-lg">
           <div className="w-16 h-16 border-4 border-everest-green border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Checking authentication...</p>
+          <p className="text-gray-600 font-medium">Checking authentication...</p>
         </div>
       </div>
     );
   }
 
   if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
-          <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">Authentication Error</h1>
-            <p className="text-red-600">{error || 'Not authenticated to access the admin panel'}</p>
-          </div>
-          <div className="space-y-4">
-            <p className="text-gray-600">
-              Please check your Sanity API token in the environment variables or contact your administrator.
-            </p>
-            <div className="bg-gray-100 p-4 rounded text-sm font-mono overflow-x-auto">
-              <code>SANITY_API_TOKEN=your-token</code>
-            </div>
-            <div className="pt-4">
-              <Link
-                href="/"
-                className="block w-full text-center bg-everest-green text-white py-2 px-4 rounded hover:bg-everest-gold transition-colors"
-              >
-                Return to Home
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return null; // We'll redirect to login in the useEffect
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-100">
       <div className="flex h-screen overflow-hidden">
-        {/* Sidebar */}
-        <div className="hidden md:flex md:flex-shrink-0 bg-everest-green">
-          <div className="flex flex-col w-64">
+        {/* Sidebar for desktop */}
+        <div className="hidden md:flex md:flex-shrink-0">
+          <div className="flex flex-col w-64 bg-gradient-to-br from-everest-green to-emerald-800">
             <div className="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
-              <div className="flex items-center flex-shrink-0 px-4">
-                <Link href="/" className="text-xl font-bold text-white">
-                  Everest Cuisine
+              <div className="flex items-center flex-shrink-0 px-4 mb-5">
+                <Link href="/" className="text-xl font-bold text-white flex items-center space-x-2">
+                  <span className="bg-white text-everest-green p-1 rounded-md">EC</span>
+                  <span>Everest Cuisine</span>
                 </Link>
               </div>
               <div className="mt-5 flex-grow flex flex-col">
-                <nav className="flex-1 px-2 space-y-1">
+                <nav className="flex-1 px-2 space-y-2">
                   {navigation.map((item) => {
                     const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
                     return (
                       <Link
                         key={item.name}
                         href={item.href}
-                        className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md ${
+                        className={`group flex items-center px-3 py-3 text-sm font-medium rounded-md transition-all duration-200 ${
                           isActive
-                            ? 'bg-everest-green text-white'
-                            : 'text-white/70 hover:bg-everest-gold/20 hover:text-white'
+                            ? 'bg-white text-everest-green shadow-md'
+                            : 'text-white hover:bg-white/20 hover:text-white'
                         }`}
                       >
                         <div
                           className={`mr-3 flex-shrink-0 ${
-                            isActive ? 'text-white' : 'text-white/70 group-hover:text-white'
+                            isActive ? 'text-everest-green' : 'text-white group-hover:text-white'
                           }`}
                         >
                           {item.icon}
@@ -212,8 +230,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </nav>
               </div>
             </div>
-            <div className="flex-shrink-0 flex p-4">
-              <Link href="/" className="w-full flex items-center justify-center text-white text-sm hover:underline">
+            <div className="flex-shrink-0 flex flex-col p-4 border-t border-white/10">
+              <button 
+                onClick={handleLogout}
+                className="flex items-center justify-center text-white bg-red-600 hover:bg-red-700 transition-colors py-2 px-4 rounded-md mb-4 font-medium"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 mr-2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                </svg>
+                Logout
+              </button>
+              <Link href="/" className="w-full flex items-center justify-center text-white text-sm bg-white/10 hover:bg-white/20 rounded-md p-2 transition-colors">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -232,46 +259,80 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Main content */}
         <div className="flex flex-col w-0 flex-1 overflow-hidden">
-          <div className="md:hidden bg-everest-green text-white p-4">
+          {/* Mobile header */}
+          <div className="md:hidden bg-gradient-to-r from-everest-green to-emerald-800 text-white p-4">
             <div className="flex items-center justify-between">
-              <Link href="/" className="text-xl font-bold">
+              <Link href="/" className="text-xl font-bold flex items-center">
+                <span className="bg-white text-everest-green p-1 rounded-md mr-2">EC</span>
                 Everest Cuisine
               </Link>
-              <Link href="/" className="flex items-center text-sm text-white/70 hover:text-white">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-4 h-4 mr-1"
+              <div className="flex items-center space-x-4">
+                <button
+                  className="flex items-center text-white bg-white/20 hover:bg-white/30 p-2 rounded-md"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-                Back to site
-              </Link>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                  </svg>
+                </button>
+              </div>
             </div>
-            <div className="flex overflow-x-auto space-x-4 mt-4 pb-1">
-              {navigation.map((item) => {
-                const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`whitespace-nowrap px-3 py-2 text-sm font-medium rounded-md flex items-center ${
-                      isActive
-                        ? 'bg-white/20 text-white'
-                        : 'text-white/70 hover:bg-white/10 hover:text-white'
-                    }`}
-                  >
-                    <div className="mr-2">{item.icon}</div>
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </div>
+            {isMobileMenuOpen && (
+              <div className="mt-4 bg-white rounded-md shadow-lg overflow-hidden">
+                <nav className="divide-y divide-gray-200">
+                  {navigation.map((item) => {
+                    const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                    return (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        className={`flex items-center px-4 py-3 text-sm font-medium ${
+                          isActive
+                            ? 'bg-everest-green/10 text-everest-green'
+                            : 'text-gray-800 hover:bg-gray-100'
+                        }`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <div className={`mr-3 ${isActive ? 'text-everest-green' : 'text-gray-500'}`}>
+                          {item.icon}
+                        </div>
+                        {item.name}
+                      </Link>
+                    );
+                  })}
+                  <div className="divide-y divide-gray-200">
+                    <Link
+                      href="/"
+                      className="flex items-center px-4 py-3 text-sm font-medium text-gray-800 hover:bg-gray-100"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-5 h-5 mr-3 text-gray-500"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                      </svg>
+                      Back to Website
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="flex w-full items-center px-4 py-3 text-sm font-medium text-red-600 hover:bg-gray-100"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 mr-3">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                      </svg>
+                      Logout
+                    </button>
+                  </div>
+                </nav>
+              </div>
+            )}
           </div>
-          <main className="flex-1 relative overflow-y-auto focus:outline-none p-4 md:p-6">
+          <main className="flex-1 relative overflow-y-auto focus:outline-none p-4 md:p-6 bg-gray-100">
             {children}
           </main>
         </div>

@@ -16,6 +16,7 @@
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.88.3",
     "@types/nodemailer": "^6.4.17",
+    "bcryptjs": "^3.0.2",
     "framer-motion": "^12.7.4",
     "next": "15.3.1",
     "next-sanity": "^9.11.1",

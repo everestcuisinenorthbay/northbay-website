@@ -11,6 +11,25 @@ export const config = {
   token: process.env.SANITY_API_TOKEN,
 };
 
+// Function to get credentials from localStorage (client-side only)
+const getCredentialsFromStorage = () => {
+  if (typeof window !== 'undefined') {
+    try {
+      const storedAuth = localStorage.getItem('sanity-auth-credentials');
+      if (storedAuth) {
+        const authData = JSON.parse(storedAuth);
+        // In a real app, you'd use these credentials to generate a token or
+        // pass them in API calls. For this example, we'll just return the username
+        // to show it's working
+        return authData.username;
+      }
+    } catch (error) {
+      console.error('Error getting credentials from localStorage:', error);
+    }
+  }
+  return null;
+};
+
 // Create a Sanity client with error handling
 export const sanityClient = createClient(config);
 
