@@ -4,11 +4,11 @@ import { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 // Configuration for the Sanity client
 export const config = {
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  apiVersion: '2023-05-03', // Use the latest API version
-  useCdn: false, // Setting to false to always use the API directly for write operations
-  token: process.env.SANITY_API_TOKEN, // Use the env variable
+  dataset: process.env.SANITY_DATASET || process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+  projectId: process.env.SANITY_PROJECT_ID || process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  apiVersion: process.env.SANITY_API_VERSION || process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2023-05-03',
+  useCdn: false,
+  token: process.env.SANITY_API_TOKEN,
 };
 
 // Create a Sanity client with error handling
