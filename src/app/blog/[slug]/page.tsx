@@ -49,11 +49,11 @@ interface BlogPost {
   };
 }
 
-interface Props {
-  params: {
-    slug: string;
-  };
-}
+// interface Props { // Commenting out for now to test inline types
+//   params: {
+//     slug: string;
+//   };
+// }
 
 // Fetch a single blog post by slug
 async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
@@ -116,7 +116,7 @@ async function getRelatedBlogPosts(currentPostId: string, categorySlugs: string[
   }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const post = await getBlogPostBySlug(params.slug);
   
   if (!post) {
@@ -134,7 +134,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function BlogPostPage({ params }: Props) {
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = await getBlogPostBySlug(params.slug);
   
   if (!post) {
