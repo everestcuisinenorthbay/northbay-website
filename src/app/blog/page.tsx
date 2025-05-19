@@ -92,13 +92,17 @@ async function getBlogCategories() {
   }
 }
 
+// Type definition for searchParams as a Promise in Next.js 15
+type PageSearchParams = Promise<{ page?: string; category?: string }>;
+
 export default async function BlogPage({
   searchParams,
 }: {
-  searchParams: { page?: string; category?: string };
+  searchParams: PageSearchParams;
 }) {
-  // Fix for "Route "/blog" used `searchParams.page`. `searchParams` should be awaited" error
-  const pageParam = searchParams.page;
+  // Await the searchParams promise to get the actual values
+  const resolvedSearchParams = await searchParams;
+  const pageParam = resolvedSearchParams.page;
   const page = Number(pageParam) || 1;
   
   // Wrap data fetching in try/catch to handle errors gracefully
