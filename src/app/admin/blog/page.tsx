@@ -221,7 +221,7 @@ export default function BlogManagementPage() {
               <div className="h-48 bg-gray-100 relative">
                 {post.mainImage ? (
                   <img
-                    src={urlFor(post.mainImage).width(400).height(200).url()}
+                    src={urlFor(post.mainImage).url()}
                     alt={post.title}
                     className="w-full h-full object-cover"
                   />
