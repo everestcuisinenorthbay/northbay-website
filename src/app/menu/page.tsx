@@ -1,6 +1,6 @@
 "use client";
 import MenuCard from '@/components/ui/MenuCard';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { getMenuCategories, getAllMenuItems } from '@/lib/api';
@@ -25,6 +25,7 @@ export default function MenuPage() {
   const [menuCategories, setMenuCategories] = useState<MenuCategory[]>([]);
   const [allMenuItems, setAllMenuItems] = useState<MenuItemWithCategory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const appetizersIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     async function fetchMenuData() {
@@ -39,8 +40,14 @@ export default function MenuPage() {
         setMenuCategories(categories);
         setAllMenuItems(items as MenuItemWithCategory[]);
         
-        // Set the first category as expanded by default
-        if (categories.length > 0) {
+        // Find appetizers category
+        const appetizersCategory = categories.find(cat => cat.name.toLowerCase().includes('appetizer'));
+        
+        // Store the appetizers ID if found
+        if (appetizersCategory) {
+          appetizersIdRef.current = appetizersCategory._id;
+          setExpandedCategories([appetizersCategory._id]);
+        } else if (categories.length > 0) {
           setExpandedCategories([categories[0]._id]);
         }
         
@@ -93,7 +100,7 @@ export default function MenuPage() {
       .filter(category => category.menuItems.length > 0);
   }, [filteredItems, menuCategories]);
 
-  // useEffect block here
+  // Update the useEffect for filter changes
   useEffect(() => {
     const isDefault =
       !searchQuery &&
@@ -103,12 +110,29 @@ export default function MenuPage() {
       !dietaryFilters.glutenFree &&
       sortBy === 'name-asc';
     
-    if (isDefault && menuCategories.length > 0) {
-      setExpandedCategories([menuCategories[0]._id]);
+    if (isDefault) {
+      // If we're in default state and have appetizers ID, make sure it stays expanded
+      if (appetizersIdRef.current) {
+        // Ensure appetizers section is always included in expanded categories
+        if (!expandedCategories.includes(appetizersIdRef.current)) {
+          setExpandedCategories(prev => [...prev, appetizersIdRef.current!]);
+        }
+      } else if (menuCategories.length > 0) {
+        setExpandedCategories([menuCategories[0]._id]);
+      }
     } else if (filteredCategories.length > 0) {
-      setExpandedCategories(filteredCategories.map(category => category._id));
+      // When filters are applied, expand all relevant categories
+      // But also keep appetizers expanded if available
+      const idsToExpand = filteredCategories.map(category => category._id);
+      if (appetizersIdRef.current && !idsToExpand.includes(appetizersIdRef.current)) {
+        const appetizerCategory = filteredCategories.find(cat => cat._id === appetizersIdRef.current);
+        if (appetizerCategory) {
+          idsToExpand.push(appetizersIdRef.current);
+        }
+      }
+      setExpandedCategories(idsToExpand);
     }
-  }, [searchQuery, priceRange, dietaryFilters, sortBy, filteredCategories, menuCategories]);
+  }, [searchQuery, priceRange, dietaryFilters, sortBy, filteredCategories, menuCategories, expandedCategories]);
 
   const toggleCategory = (categoryId: string) => {
     setExpandedCategories(prev => 

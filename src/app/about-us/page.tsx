@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from '@/components/ui/Image';
+import Image from 'next/image';
 import Link from 'next/link';
 
 // Animation variants
@@ -261,7 +261,6 @@ export default function AboutUs() {
                   alt="Ramesh Baniya"
                   fill
                   className="object-cover object-center"
-                  wrapperClassName="relative w-full h-full"
                 />
               </div>
               <div className="p-6">
