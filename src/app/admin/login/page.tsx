@@ -16,8 +16,9 @@ export default function LoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false); // Added loading state
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,22 +37,30 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // Store a simple auth marker. For production, use a secure session/token.
-        localStorage.setItem('admin-authenticated', 'true'); 
-        localStorage.setItem('admin-user', JSON.stringify(data.user)); // Store user info if needed
+        const storage = rememberMe ? localStorage : sessionStorage;
+        storage.setItem('admin-authenticated', 'true');
+        storage.setItem('admin-user', JSON.stringify(data.user));
         
-        // Redirect to admin
+        // Clear the other storage to be safe
+        const otherStorage = rememberMe ? sessionStorage : localStorage;
+        otherStorage.removeItem('admin-authenticated');
+        otherStorage.removeItem('admin-user');
+
         router.push('/admin');
       } else {
         setError(data.error || 'Invalid credentials. Please check your username and password.');
         localStorage.removeItem('admin-authenticated');
         localStorage.removeItem('admin-user');
+        sessionStorage.removeItem('admin-authenticated');
+        sessionStorage.removeItem('admin-user');
       }
     } catch (err) {
       console.error('Login error:', err);
       setError('An unexpected error occurred during login. Please try again.');
       localStorage.removeItem('admin-authenticated');
       localStorage.removeItem('admin-user');
+      sessionStorage.removeItem('admin-authenticated');
+      sessionStorage.removeItem('admin-user');
     } finally {
       setLoading(false);
     }
@@ -106,6 +115,22 @@ export default function LoginPage() {
                 className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-everest-green focus:border-everest-green transition-colors"
                 placeholder="Enter your password"
               />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="h-4 w-4 text-everest-green focus:ring-everest-green border-gray-300 rounded"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                  Remember me
+                </label>
+              </div>
             </div>
 
             <div>

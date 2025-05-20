@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { sanityClient } from '@/lib/sanity';
@@ -116,40 +116,68 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes
+
+  const handleLogout = () => {
+    localStorage.removeItem('admin-authenticated');
+    localStorage.removeItem('admin-user');
+    sessionStorage.removeItem('admin-authenticated');
+    sessionStorage.removeItem('admin-user');
+    clearSanityAuthClient();
+    setIsAuthenticated(false); // Ensure UI updates immediately
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+    }
+    router.push('/admin/login');
+  };
+
+  const resetInactivityTimer = () => {
+    if (inactivityTimerRef.current) {
+      clearTimeout(inactivityTimerRef.current);
+    }
+    if (isAuthenticated && pathname !== '/admin/login') { // Only run timer if authenticated and not on login page
+      inactivityTimerRef.current = setTimeout(handleLogout, INACTIVITY_TIMEOUT_MS);
+    }
+  };
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         setIsLoading(true);
-        
         if (pathname === '/admin/login') {
           setIsLoading(false);
           return;
         }
-        
-        // Check for our new authentication marker
-        const isAuthenticatedMarker = localStorage.getItem('admin-authenticated');
-        
-        if (isAuthenticatedMarker === 'true') {
+
+        let authenticated = false;
+        const sessionAuth = sessionStorage.getItem('admin-authenticated');
+        if (sessionAuth === 'true') {
+          authenticated = true;
+        } else {
+          const localAuth = localStorage.getItem('admin-authenticated');
+          if (localAuth === 'true') {
+            authenticated = true;
+          } 
+        }
+
+        if (authenticated) {
           setIsAuthenticated(true);
         } else {
-          // No valid marker, redirect to login
           if (pathname !== '/admin/login') {
             router.push('/admin/login');
           }
           setIsAuthenticated(false);
         }
-        
       } catch (err) {
         console.error('Authentication check error:', err);
         setError('Error checking authentication status. Please try logging in again.');
         setIsAuthenticated(false);
-        
-        // Clear any potentially stale auth markers
         localStorage.removeItem('admin-authenticated');
-        localStorage.removeItem('admin-user'); // Also clear user info
-        clearSanityAuthClient(); // Clear any Sanity specific auth state
-        
+        localStorage.removeItem('admin-user');
+        sessionStorage.removeItem('admin-authenticated');
+        sessionStorage.removeItem('admin-user');
+        clearSanityAuthClient();
         if (pathname !== '/admin/login') {
           router.push('/admin/login');
         }
@@ -161,13 +189,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     checkAuth();
   }, [pathname, router]);
 
-  const handleLogout = () => {
-    // Clear our new authentication markers
-    localStorage.removeItem('admin-authenticated');
-    localStorage.removeItem('admin-user');
-    clearSanityAuthClient(); // Clear Sanity specific auth state
-    router.push('/admin/login');
-  };
+  useEffect(() => {
+    if (isAuthenticated && pathname !== '/admin/login') {
+      const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+      const resetTimerListener = () => resetInactivityTimer();
+
+      events.forEach(event => window.addEventListener(event, resetTimerListener));
+      resetInactivityTimer(); // Initial timer start
+
+      return () => {
+        events.forEach(event => window.removeEventListener(event, resetTimerListener));
+        if (inactivityTimerRef.current) {
+          clearTimeout(inactivityTimerRef.current);
+        }
+      };
+    }
+  }, [isAuthenticated, pathname, handleLogout]); // Added handleLogout to dependency array
 
   // If we're on the login page, just render children (the login page)
   if (pathname === '/admin/login') {
