@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import CommunityCarousel from '@/components/CommunityCarousel';
 
 // Animation variants
 const fadeInUp = {
@@ -163,17 +164,28 @@ export default function AboutUs() {
       </section>
 
       {/* Chef Section */}
-      <section className="w-full bg-white py-16 md:py-24">
-        <div className="container mx-auto px-6 md:px-8 max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl sm:text-5xl font-serif text-everest-green mb-4">Meet Our Chef</h2>
-            <div className="w-24 h-1 bg-everest-gold mx-auto"></div>
+      <section className="w-full bg-everest-green py-16 md:py-24 relative overflow-hidden">
+        {/* Simplified pattern overlay */}
+        <div className="absolute inset-0 opacity-5">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <path d="M0 0h100v100H0z" fill="none"/>
+            <path d="M50 0v100M0 50h100" stroke="currentColor" strokeWidth="0.5"/>
+          </svg>
+        </div>
+
+        <div className="container mx-auto px-6 md:px-8 max-w-6xl relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-serif text-white mb-4">Meet Our Chef</h2>
+            <div className="w-24 h-1 bg-everest-gold mx-auto mb-6"></div>
+            <p className="text-white/80 max-w-2xl mx-auto italic text-lg">
+              "Cooking is an art that transforms ingredients into experiences. I invite you to taste the journey."
+            </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="order-2 md:order-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 items-stretch rounded-lg overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+            <div className="order-2 md:order-1 h-full">
               <motion.div 
-                className="relative rounded-lg overflow-hidden shadow-xl"
+                className="relative h-full overflow-hidden"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
@@ -184,13 +196,13 @@ export default function AboutUs() {
                   alt="Chef Sagar Shrestha"
                   width={500}
                   height={600}
-                  className="object-cover w-full aspect-[4/5]"
+                  className="object-cover w-full h-full transition-transform duration-700 hover:scale-105"
                 />
               </motion.div>
             </div>
             
             <motion.div 
-              className="order-1 md:order-2 text-center md:text-left"
+              className="order-1 md:order-2 text-center md:text-left p-6 md:p-10 bg-white h-full flex flex-col justify-center"
               variants={staggerChildren}
               initial="hidden"
               whileInView="visible"
@@ -203,29 +215,29 @@ export default function AboutUs() {
                 Chef Sagar Shrestha
               </motion.h3>
               <motion.div 
-                className="w-16 h-1 bg-everest-gold mb-6 mx-auto md:mx-0"
+                className="w-16 h-1 bg-everest-gold mb-8 mx-auto md:mx-0"
                 variants={fadeInUp}
               />
               <motion.p 
-                className="text-slate-700 mb-4"
+                className="text-slate-700 mb-6 leading-relaxed"
                 variants={fadeInUp}
               >
                 Born and raised in Kathmandu, Nepal, Chef Sagar Shrestha&apos;s culinary journey began in his mother&apos;s kitchen. With over 25 years of experience, he has mastered the art of Nepalese and Indian cuisine through formal training at Nepal Academy of Tourism and Hotel Management.
               </motion.p>
               <motion.p 
-                className="text-slate-700 mb-4"
+                className="text-slate-700 mb-6 leading-relaxed"
                 variants={fadeInUp}
               >
                 His passion for culinary excellence has taken him across the globe - from Saudi Arabia and Kuwait to Japan, where he mastered the art of sushi. His European training at Capo Bay Hotel in Cyprus further refined his skills. After moving to Canada nearly 9 years ago, Sagar worked in prestigious establishments like Kizuna Japanese Fine Cuisine, Hilton Hotel Saint John, Kasa Moto, and Miku Toronto.
               </motion.p>
               <motion.p 
-                className="text-slate-700 mb-4"
+                className="text-slate-700 mb-6 leading-relaxed"
                 variants={fadeInUp}
               >
                 At Everest Cuisine, Chef Sagar brings together his diverse culinary experiences to create dishes that honor traditional Nepalese cooking while incorporating innovative techniques from his international training. His expertise in both Nepalese and Indian cuisine allows him to create a menu that showcases the best of both culinary traditions, from the delicate flavors of momos to the rich, complex curries.
               </motion.p>
               <motion.p 
-                className="text-slate-700 italic"
+                className="text-slate-700 italic text-lg border-l-4 border-everest-gold pl-4 py-2"
                 variants={fadeInUp}
               >
                 &quot;Every dish we serve is a reflection of my journey - from the streets of Kathmandu to the finest restaurants across the world. I invite you to experience the authentic flavors of Nepal, crafted with passion and precision.&quot;
@@ -235,95 +247,40 @@ export default function AboutUs() {
         </div>
       </section>
 
-      {/* Our Team Section */}
-      <section className="w-full bg-beige py-16 md:py-24">
+      {/* Community Involvement Section */}
+      <motion.section 
+        className="w-full bg-beige py-16 md:py-24"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={staggerChildren}
+      >
         <div className="container mx-auto px-6 md:px-8 max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-4xl sm:text-5xl font-serif text-everest-green mb-4">Our Team</h2>
-            <div className="w-24 h-1 bg-everest-gold mx-auto mb-6"></div>
-            <p className="text-slate-700 max-w-3xl mx-auto">
-              Behind every exceptional dining experience is a dedicated team working tirelessly to bring you the best in Nepalese cuisine and hospitality.
-            </p>
+            <motion.h2 
+              className="text-4xl sm:text-5xl font-serif text-everest-green mb-4"
+              variants={fadeInUp}
+            >
+              Giving Back to Our Community
+            </motion.h2>
+            <motion.div 
+              className="w-24 h-1 bg-everest-gold mx-auto mb-6"
+              variants={fadeInUp}
+            />
+            <motion.p 
+              className="text-slate-700 max-w-3xl mx-auto"
+              variants={fadeInUp}
+            >
+              At Everest Cuisine, we believe in more than just great food. We are committed to supporting and uplifting our local community. Here are some of the ways we get involved.
+            </motion.p>
           </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Team Member 1 */}
-            <motion.div 
-              className="bg-white rounded-lg overflow-hidden shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <div className="aspect-[1/1] relative">
-                <Image
-                  src="/Ramesh-Baniya.jpg"
-                  alt="Ramesh Baniya"
-                  fill
-                  className="object-cover object-center"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-serif text-everest-green mb-1">Ramesh Baniya</h3>
-                <p className="text-everest-gold font-medium mb-3">Proprietor/Restaurant Manager</p>
-                <p className="text-slate-700 text-sm">
-                  As a part owner and manager with years of experience in hospitality, Ramesh brings his expertise and passion to ensure every aspect of your dining experience exceeds expectations.
-                </p>
-              </div>
-            </motion.div>
-            
-            {/* Team Member 2 */}
-            <motion.div 
-              className="bg-white rounded-lg overflow-hidden shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <div className="aspect-[1/1] relative">
-                <Image
-                  src="/team-2.jpg"
-                  alt="Sous Chef"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-serif text-everest-green mb-1">Ajay Sharma</h3>
-                <p className="text-everest-gold font-medium mb-3">Sous Chef</p>
-                <p className="text-slate-700 text-sm">
-                  With extensive training under Chef Sagar&apos;s mentorship, Ajay combines traditional Nepalese cooking techniques with innovative approaches, ensuring each dish that leaves our kitchen is authetic.
-                </p>
-              </div>
-            </motion.div>
-            
-            {/* Team Member 3 */}
-            <motion.div 
-              className="bg-white rounded-lg overflow-hidden shadow-md"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <div className="aspect-[1/1] relative">
-                <Image
-                  src="/team-3.jpg"
-                  alt="Service Lead"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-serif text-everest-green mb-1">Sheetal Rijal</h3>
-                <p className="text-everest-gold font-medium mb-3">Service Lead</p>
-                <p className="text-slate-700 text-sm">
-                  Sheetal&apos;s warm personality and attention to detail make her an invaluable part of our front-of-house team, ensuring every guest receives personalized service and leaves with a memorable dining experience.
-                </p>
-              </div>
-            </motion.div>
-          </div>
+
+          {/* Image Carousel with Modals */}
+          <motion.div variants={fadeIn} className="mt-8 md:mt-12">
+            <CommunityCarousel />
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* CTA Section */}
       <section className="relative w-full px-4 py-4 md:py-2 overflow-hidden">
