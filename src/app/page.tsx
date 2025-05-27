@@ -207,7 +207,7 @@ export default function Home() {
               </div>
               <span className="text-white font-semibold">4.8</span>
               <span className="text-white/80 ml-1">•</span>
-              <span className="text-white/80 ml-1">700+ Google Reviews</span>
+              <span className="text-white/80 ml-1">800+ Google Reviews</span>
               </motion.div>
               
             <motion.div 
