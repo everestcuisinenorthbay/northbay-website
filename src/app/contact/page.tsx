@@ -193,8 +193,8 @@ export default function ContactPage() {
               </li>
               <li>
                 <div className="font-medium mb-1">Email:</div>
-                          <Link href="mailto:info@everestcuisine.com" className="text-everest-green hover:text-everest-gold transition-colors">
-                  info@everestcuisine.com
+                          <Link href="mailto:everestcuisineottawa@gmail.com" className="text-everest-green hover:text-everest-gold transition-colors">
+                  everestcuisineottawa@gmail.com
                 </Link>
               </li>
               <li>
