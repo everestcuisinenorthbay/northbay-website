@@ -62,7 +62,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+        <meta name="theme-color" content="#0a2e1a" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0a2e1a" media="(prefers-color-scheme: dark)" />
         <link rel="canonical" href="https://everestcuisineottawa.com/" />
         <script type="application/ld+json">{`
           {
