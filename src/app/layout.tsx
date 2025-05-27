@@ -82,6 +82,14 @@ export default function RootLayout({
             "url": "https://everestcuisineottawa.com"
           }
         `}</script>
+        {/* Google Analytics GA4 */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-JY03FJ7GH6"></script>
+        <script>{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-JY03FJ7GH6');
+        `}</script>
       </head>
       <body className={`antialiased flex flex-col min-h-screen overflow-x-hidden`}>
         <Header />
