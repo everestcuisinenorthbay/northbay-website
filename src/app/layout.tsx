@@ -11,6 +11,11 @@ export const metadata: Metadata = {
   description: "Experience authentic Indo-Nepalese cuisine and sushi at Everest Cuisine in Ottawa. Fresh ingredients, traditional recipes, and a warm atmosphere.",
   keywords: "Everest Cuisine, Nepali food, Indian restaurant, Sushi bar, Ottawa restaurant, Momo, Nepali cuisine, Indo-Nepalese food",
   authors: [{ name: "Everest Cuisine Restaurant" }],
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
   openGraph: {
     type: 'website',
     title: 'Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar',
