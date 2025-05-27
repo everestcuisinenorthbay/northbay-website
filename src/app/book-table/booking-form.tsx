@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircleIcon, ExclamationCircleIcon, UserIcon, EnvelopeIcon, PhoneIcon, CalendarIcon, ClockIcon, UserGroupIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 
@@ -128,6 +128,49 @@ export default function BookingForm() {
     }
   };
 
+  // Generate all possible time options
+  const allTimeOptions = useMemo(() => [
+    { value: '', label: 'Select a time' },
+    ...[...Array(6)].map((_, index) => {
+      const hour = 11 + Math.floor(index / 2);
+      const mins = index % 2 === 0 ? '30' : '00';
+      const time = `${hour}:${mins}`;
+      const ampm = hour < 12 ? 'AM' : 'PM';
+      const hour12 = hour > 12 ? hour - 12 : hour;
+      return { value: time, label: `${hour12}:${mins} ${ampm}` };
+    }),
+    ...[...Array(8)].map((_, index) => {
+      const hour = 17 + Math.floor(index / 2);
+      const mins = index % 2 === 0 ? '30' : '00';
+      const time = `${hour}:${mins}`;
+      const ampm = 'PM';
+      const hour12 = hour > 12 ? hour - 12 : hour;
+      return { value: time, label: `${hour12}:${mins} ${ampm}` };
+    }),
+  ], []);
+
+  // Filter time options based on selected date
+  const filteredTimeOptions = useMemo(() => {
+    if (!formData.date) return allTimeOptions;
+    const today = new Date();
+    const selectedDate = new Date(formData.date);
+    if (
+      today.getFullYear() === selectedDate.getFullYear() &&
+      today.getMonth() === selectedDate.getMonth() &&
+      today.getDate() === selectedDate.getDate()
+    ) {
+      // Only show times that are in the future
+      const nowMinutes = today.getHours() * 60 + today.getMinutes();
+      return allTimeOptions.filter(option => {
+        if (!option.value) return true;
+        const [h, m] = option.value.split(':');
+        const optionMinutes = parseInt(h) * 60 + parseInt(m);
+        return optionMinutes > nowMinutes;
+      });
+    }
+    return allTimeOptions;
+  }, [formData.date, allTimeOptions]);
+
   const formSections: FormSection[] = [
     {
       title: "Contact Information",
@@ -178,25 +221,7 @@ export default function BookingForm() {
           label: 'Preferred Time',
       type: 'select',
           icon: <ClockIcon className="w-5 h-5 text-everest-green/70" />,
-      options: [
-        { value: '', label: 'Select a time' },
-        ...[...Array(6)].map((_, index) => {
-          const hour = 11 + Math.floor(index / 2);
-          const mins = index % 2 === 0 ? '30' : '00';
-          const time = `${hour}:${mins}`;
-              const ampm = hour < 12 ? 'AM' : 'PM';
-              const hour12 = hour > 12 ? hour - 12 : hour;
-              return { value: time, label: `${hour12}:${mins} ${ampm}` };
-        }),
-        ...[...Array(8)].map((_, index) => {
-          const hour = 17 + Math.floor(index / 2);
-          const mins = index % 2 === 0 ? '30' : '00';
-          const time = `${hour}:${mins}`;
-              const ampm = 'PM';
-              const hour12 = hour > 12 ? hour - 12 : hour;
-              return { value: time, label: `${hour12}:${mins} ${ampm}` };
-        }),
-      ],
+      options: filteredTimeOptions,
       required: true,
       colSpan: 'md:col-span-1',
         } as SelectField,
@@ -280,16 +305,31 @@ export default function BookingForm() {
                 {field.icon}
               </div>
               
-              {field.type === 'select' ? (
+              {field.type === 'select' && field.id === 'time' ? (
                 <select
                   id={field.id}
                   name={field.id}
                   value={(formData as any)[field.id]}
                   onChange={handleChange}
                   required={field.required}
-                      className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-everest-green/50 focus:border-everest-green bg-white shadow-sm font-sans text-gray-700 appearance-none transition-colors group-hover:border-everest-green"
+                  className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-everest-green/50 focus:border-everest-green bg-white shadow-sm font-sans text-gray-700 appearance-none transition-colors group-hover:border-everest-green"
                 >
-                      {(field as SelectField).options.map((option) => (
+                  {filteredTimeOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              ) : field.type === 'select' ? (
+                <select
+                  id={field.id}
+                  name={field.id}
+                  value={(formData as any)[field.id]}
+                  onChange={handleChange}
+                  required={field.required}
+                  className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-everest-green/50 focus:border-everest-green bg-white shadow-sm font-sans text-gray-700 appearance-none transition-colors group-hover:border-everest-green"
+                >
+                  {(field as SelectField).options.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
