@@ -12,15 +12,27 @@ export const metadata: Metadata = {
   keywords: "Everest Cuisine, Nepali food, Indian restaurant, Sushi bar, Ottawa restaurant, Momo, Nepali cuisine, Indo-Nepalese food",
   authors: [{ name: "Everest Cuisine Restaurant" }],
   icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
-    apple: '/favicon.png',
+    icon: [
+      '/favicon.ico',
+      '/favicon/favicon-96x96.png',
+      '/favicon/favicon.svg',
+    ],
+    apple: '/favicon/apple-touch-icon.png',
+    shortcut: '/favicon.ico',
+    other: [
+      { rel: 'manifest', url: '/favicon/site.webmanifest' },
+      { rel: 'icon', url: '/favicon/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+      { rel: 'icon', url: '/favicon/favicon.svg', type: 'image/svg+xml' },
+      { rel: 'apple-touch-icon', url: '/favicon/apple-touch-icon.png', sizes: '180x180' },
+      { rel: 'icon', url: '/favicon/favicon.ico', sizes: 'any', type: 'image/x-icon' },
+    ],
   },
   openGraph: {
     type: 'website',
     title: 'Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar',
     description: 'Authentic Indo-Nepalese cuisine and sushi in Ottawa',
     siteName: 'Everest Cuisine',
+    url: 'https://everest-website-dusky.vercel.app/',
     images: [
       {
         url: '/meta-preview.jpg',
@@ -29,6 +41,9 @@ export const metadata: Metadata = {
         alt: 'Everest Cuisine - Authentic Indo-Nepalese Restaurant & Sushi Bar',
       }
     ],
+  },
+  other: {
+    'fb:app_id': '', // Add your Facebook App ID here if available
   },
 };
 
