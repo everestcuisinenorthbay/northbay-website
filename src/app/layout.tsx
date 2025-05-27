@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     title: 'Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar',
     description: 'Authentic Indo-Nepalese cuisine and sushi in Ottawa',
     siteName: 'Everest Cuisine',
-    url: 'https://everest-website-dusky.vercel.app/',
+    url: 'https://everestcuisineottawa.com/',
     images: [
       {
         url: '/meta-preview.jpg',
