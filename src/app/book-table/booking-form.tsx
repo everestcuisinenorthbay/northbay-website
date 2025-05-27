@@ -160,20 +160,23 @@ export default function BookingForm() {
   // Filter time options based on selected date
   const filteredTimeOptions = useMemo(() => {
     if (!formData.date) return allTimeOptions;
+
     const now = new Date();
-    const selectedDate = new Date(formData.date);
+    // Parse formData.date (YYYY-MM-DD) as a local date
+    const [year, month, day] = formData.date.split('-').map(Number);
+    const selectedDateObject = new Date(year, month - 1, day);
+
     if (
-      now.getFullYear() === selectedDate.getFullYear() &&
-      now.getMonth() === selectedDate.getMonth() &&
-      now.getDate() === selectedDate.getDate()
+      now.getFullYear() === selectedDateObject.getFullYear() &&
+      now.getMonth() === selectedDateObject.getMonth() &&
+      now.getDate() === selectedDateObject.getDate()
     ) {
       // Only show times that are in the future
       return allTimeOptions.filter(option => {
-        if (!option.value) return true;
+        if (!option.value) return true; // Keep "Select a time"
         const [h, m] = option.value.split(':').map(Number);
-        const optionMinutes = h * 60 + m;
-        const nowMinutes = now.getHours() * 60 + now.getMinutes();
-        return optionMinutes > nowMinutes;
+        const optionTime = new Date(year, month - 1, day, h, m);
+        return optionTime > now;
       });
     }
     return allTimeOptions;
