@@ -109,7 +109,7 @@ export default function AboutUs() {
                 className="text-slate-700 mb-4"
                 variants={fadeInUp}
               >
-                We specialize in authentic Nepali momos: steamed, fried, tandoori, kothey, or jhol, served with house-made sauces and spice blends. But the journey doesn&apos;t end there. Our Indo-Chinese lineup features favorites like Hakka chowmein, chicken chilli, and Gobi Manchurian, all wok-tossed and deeply satisfying.
+                We specialize in authentic Nepali momos: steamed, fried, tandoori, kothey, or jhol, served with house-made sauces and spice blends. Patrons even say that the momos are the best in town. But the journey doesn&apos;t end there. Our Indo-Chinese lineup features favorites like Hakka chowmein, chicken chilli, and Gobi Manchurian, all wok-tossed and deeply satisfying.
               </motion.p>
               <motion.p 
                 className="text-slate-700 mb-4"
