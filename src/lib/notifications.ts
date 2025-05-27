@@ -84,6 +84,12 @@ export async function sendEmail(to: string, subject: string, html: string, from?
   }
 }
 
+// Helper to parse YYYY-MM-DD as local date
+function parseLocalDate(dateStr: string) {
+  const [year, month, day] = dateStr.split('-');
+  return new Date(Number(year), Number(month) - 1, Number(day));
+}
+
 /**
  * Send a booking confirmation email to the user
  */
@@ -100,7 +106,7 @@ export function sendBookingConfirmationEmail(
   const { name, date, time, partySize, occasion } = bookingDetails;
   
   // Format date for display
-  const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  const formattedDate = parseLocalDate(date).toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
@@ -174,7 +180,7 @@ export function sendBookingNotificationToAdmin(
   const { _id, name, email, phone, date, time, partySize, occasion, notes } = bookingDetails;
   
   // Format date for display
-  const formattedDate = new Date(date).toLocaleDateString('en-US', {
+  const formattedDate = parseLocalDate(date).toLocaleDateString('en-US', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
