@@ -16,6 +16,14 @@ export const metadata: Metadata = {
     title: 'Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar',
     description: 'Authentic Indo-Nepalese cuisine and sushi in Ottawa',
     siteName: 'Everest Cuisine',
+    images: [
+      {
+        url: '/meta-preview.jpg',
+        width: 1200,
+        height: 627,
+        alt: 'Everest Cuisine - Authentic Indo-Nepalese Restaurant & Sushi Bar',
+      }
+    ],
   },
 };
 
