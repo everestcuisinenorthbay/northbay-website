@@ -45,6 +45,13 @@ export const metadata: Metadata = {
   other: {
     'fb:app_id': '', // Add your Facebook App ID here if available
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar',
+    description: 'Authentic Indo-Nepalese cuisine and sushi in Ottawa',
+    images: ['/meta-preview.jpg'],
+    site: '@EverestCuisine', // Replace with your Twitter handle if available
+  },
 };
 
 export default function RootLayout({
@@ -56,10 +63,27 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link rel="canonical" href="https://everestcuisineottawa.com/" />
+        <script type="application/ld+json">{`
+          {
+            "@context": "https://schema.org",
+            "@type": "Restaurant",
+            "name": "Everest Cuisine",
+            "image": "https://everestcuisineottawa.com/meta-preview.jpg",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1846 Carling Ave",
+              "addressLocality": "Ottawa",
+              "addressRegion": "ON",
+              "postalCode": "K2A 1E2",
+              "addressCountry": "CA"
+            },
+            "telephone": "613-963-4406",
+            "url": "https://everestcuisineottawa.com"
+          }
+        `}</script>
       </head>
-      <body
-        className={`antialiased flex flex-col min-h-screen overflow-x-hidden`}
-      >
+      <body className={`antialiased flex flex-col min-h-screen overflow-x-hidden`}>
         <Header />
         <main className="flex-grow">
           {children}
