@@ -129,42 +129,50 @@ export default function BookingForm() {
   };
 
   // Generate all possible time options
-  const allTimeOptions = useMemo(() => [
-    { value: '', label: 'Select a time' },
-    ...[...Array(6)].map((_, index) => {
-      const hour = 11 + Math.floor(index / 2);
-      const mins = index % 2 === 0 ? '30' : '00';
-      const time = `${hour}:${mins}`;
-      const ampm = hour < 12 ? 'AM' : 'PM';
-      const hour12 = hour > 12 ? hour - 12 : hour;
-      return { value: time, label: `${hour12}:${mins} ${ampm}` };
-    }),
-    ...[...Array(8)].map((_, index) => {
-      const hour = 17 + Math.floor(index / 2);
-      const mins = index % 2 === 0 ? '30' : '00';
-      const time = `${hour}:${mins}`;
-      const ampm = 'PM';
-      const hour12 = hour > 12 ? hour - 12 : hour;
-      return { value: time, label: `${hour12}:${mins} ${ampm}` };
-    }),
-  ], []);
+  const allTimeOptions = useMemo(() => {
+    const options = [
+      ...[...Array(6)].map((_, index) => {
+        const hour = 11 + Math.floor(index / 2);
+        const mins = index % 2 === 0 ? '30' : '00';
+        const time = `${hour}:${mins}`;
+        const ampm = hour < 12 ? 'AM' : 'PM';
+        const hour12 = hour > 12 ? hour - 12 : hour;
+        return { value: time, label: `${hour12}:${mins} ${ampm}` };
+      }),
+      ...[...Array(8)].map((_, index) => {
+        const hour = 17 + Math.floor(index / 2);
+        const mins = index % 2 === 0 ? '30' : '00';
+        const time = `${hour}:${mins}`;
+        const ampm = 'PM';
+        const hour12 = hour > 12 ? hour - 12 : hour;
+        return { value: time, label: `${hour12}:${mins} ${ampm}` };
+      })
+    ];
+    // Sort by time value (HH:MM)
+    options.sort((a, b) => {
+      const [ah, am] = a.value.split(':').map(Number);
+      const [bh, bm] = b.value.split(':').map(Number);
+      return (ah * 60 + am) - (bh * 60 + bm);
+    });
+    return [{ value: '', label: 'Select a time' }, ...options];
+  }, []);
 
   // Filter time options based on selected date
   const filteredTimeOptions = useMemo(() => {
     if (!formData.date) return allTimeOptions;
-    const today = new Date();
+    const now = new Date();
     const selectedDate = new Date(formData.date);
     if (
-      today.getFullYear() === selectedDate.getFullYear() &&
-      today.getMonth() === selectedDate.getMonth() &&
-      today.getDate() === selectedDate.getDate()
+      now.getFullYear() === selectedDate.getFullYear() &&
+      now.getMonth() === selectedDate.getMonth() &&
+      now.getDate() === selectedDate.getDate()
     ) {
       // Only show times that are in the future
-      const nowMinutes = today.getHours() * 60 + today.getMinutes();
       return allTimeOptions.filter(option => {
         if (!option.value) return true;
-        const [h, m] = option.value.split(':');
-        const optionMinutes = parseInt(h) * 60 + parseInt(m);
+        const [h, m] = option.value.split(':').map(Number);
+        const optionMinutes = h * 60 + m;
+        const nowMinutes = now.getHours() * 60 + now.getMinutes();
         return optionMinutes > nowMinutes;
       });
     }
