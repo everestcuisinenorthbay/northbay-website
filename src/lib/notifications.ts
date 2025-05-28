@@ -111,6 +111,7 @@ export function sendBookingConfirmationEmail(
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'UTC',
   });
   
   // Format time for display (convert 24h to 12h format)
@@ -185,6 +186,7 @@ export function sendBookingNotificationToAdmin(
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    timeZone: 'UTC',
   });
   
   // Format time for display
