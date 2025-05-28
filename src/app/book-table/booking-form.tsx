@@ -178,7 +178,9 @@ export default function BookingForm() {
         if (!option.value) return true; // Keep "Select a time"
         const [h, m] = option.value.split(':').map(Number);
         const optionTime = new Date(year, month - 1, day, h, m);
-        return optionTime > now;
+        // Add 30 minutes buffer to allow for booking preparation
+        const bufferTime = new Date(now.getTime() + 30 * 60000);
+        return optionTime > bufferTime;
       });
     }
     return allTimeOptions;
