@@ -51,6 +51,14 @@ interface FormSection {
   fields: FormField[];
 }
 
+const getLocalTodayDateString = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = (today.getMonth() + 1).toString().padStart(2, '0'); // getMonth is 0-indexed
+  const day = today.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 export default function BookingForm() {
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -173,13 +181,13 @@ export default function BookingForm() {
       now.getMonth() === selectedDateObject.getMonth() &&
       now.getDate() === selectedDateObject.getDate()
     ) {
-      // Only show times that are in the future
+      // Only show times that are at least 5 minutes in the future
       return allTimeOptions.filter(option => {
         if (!option.value) return true; // Keep "Select a time"
         const [h, m] = option.value.split(':').map(Number);
         const optionTime = new Date(year, month - 1, day, h, m);
-        // Add 30 minutes buffer to allow for booking preparation
-        const bufferTime = new Date(now.getTime() + 30 * 60000);
+        // Add 5 minutes buffer to allow for booking preparation
+        const bufferTime = new Date(now.getTime() + 5 * 60000);
         return optionTime > bufferTime;
       });
     }
@@ -229,7 +237,7 @@ export default function BookingForm() {
           icon: <CalendarIcon className="w-5 h-5 text-everest-green/70" />,
       required: true,
       colSpan: 'md:col-span-1',
-      min: new Date().toISOString().split('T')[0],
+      min: getLocalTodayDateString(),
         } as DateField,
     {
       id: 'time',
