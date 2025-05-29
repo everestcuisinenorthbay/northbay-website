@@ -181,13 +181,13 @@ export default function BookingForm() {
       now.getMonth() === selectedDateObject.getMonth() &&
       now.getDate() === selectedDateObject.getDate()
     ) {
-      // Only show times that are at least 5 minutes in the future
+      // Only show times that are at least 30 minutes in the future
       return allTimeOptions.filter(option => {
         if (!option.value) return true; // Keep "Select a time"
         const [h, m] = option.value.split(':').map(Number);
         const optionTime = new Date(year, month - 1, day, h, m);
-        // Add 5 minutes buffer to allow for booking preparation
-        const bufferTime = new Date(now.getTime() + 5 * 60000);
+        // Add 30 minutes buffer to allow for booking preparation
+        const bufferTime = new Date(now.getTime() + 30 * 60000);
         return optionTime > bufferTime;
       });
     }
@@ -366,11 +366,11 @@ export default function BookingForm() {
                   value={(formData as any)[field.id]}
                   onChange={handleChange}
                   required={field.required}
-                      min={field.type === 'date' ? (field as DateField).min : undefined}
-                      placeholder={field.type !== 'date' ? (field as TextField).placeholder : undefined}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-everest-green/50 focus:border-everest-green bg-white shadow-sm font-sans text-gray-700 transition-colors group-hover:border-everest-green"
-                    />
-                  )}
+                  min={field.type === 'date' ? (field as DateField).min : undefined}
+                  placeholder={field.type !== 'date' ? (field as TextField).placeholder : undefined}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-everest-green/50 focus:border-everest-green bg-white shadow-sm font-sans text-gray-700 transition-colors group-hover:border-everest-green"
+                />
+              )}
                   
                   {field.type === 'select' && (
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
