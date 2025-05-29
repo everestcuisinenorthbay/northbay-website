@@ -139,19 +139,28 @@ export default function BookingForm() {
   // Generate all possible time options
   const allTimeOptions = useMemo(() => {
     const options = [
-      // Lunch hours (11:30 AM - 2:00 PM)
-      ...[...Array(6)].map((_, index) => {
+      // Lunch hours (11:00 AM - 2:30 PM)
+      ...[...Array(8)].map((_, index) => {
         const hour = 11 + Math.floor(index / 2);
-        const mins = index % 2 === 0 ? '30' : '00';
+        const mins = index % 2 === 0 ? '00' : '30';
         const time = `${hour}:${mins}`;
         const ampm = hour < 12 ? 'AM' : 'PM';
+        const hour12 = hour > 12 ? hour - 12 : hour;
+        return { value: time, label: `${hour12}:${mins} ${ampm}` };
+      }),
+      // Afternoon hours (3:00 PM - 4:30 PM)
+      ...[...Array(4)].map((_, index) => {
+        const hour = 15 + Math.floor(index / 2);
+        const mins = index % 2 === 0 ? '00' : '30';
+        const time = `${hour}:${mins}`;
+        const ampm = 'PM';
         const hour12 = hour > 12 ? hour - 12 : hour;
         return { value: time, label: `${hour12}:${mins} ${ampm}` };
       }),
       // Dinner hours (5:00 PM - 10:30 PM)
       ...[...Array(12)].map((_, index) => {
         const hour = 17 + Math.floor(index / 2);
-        const mins = index % 2 === 0 ? '30' : '00';
+        const mins = index % 2 === 0 ? '00' : '30';
         const time = `${hour}:${mins}`;
         const ampm = 'PM';
         const hour12 = hour > 12 ? hour - 12 : hour;
