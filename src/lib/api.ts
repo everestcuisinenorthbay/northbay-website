@@ -2,6 +2,35 @@ import { sanityClient } from './sanity';
 import { MenuCategory, MenuItem } from '@/types/sanity';
 import { sendBookingNotificationToAdmin, sendBookingConfirmationEmail } from './notifications';
 
+// Site Settings Interface
+export interface SiteSettings {
+  _id: string;
+  reviewCount: string;
+  rating: number;
+  ratingSource: string;
+  heroTitle?: string;
+  heroSubtitle?: string;
+}
+
+// Fetch site settings
+export async function getSiteSettings(): Promise<SiteSettings | null> {
+  const query = `
+    *[_type == "siteSettings"][0] {
+      _id,
+      reviewCount,
+      rating,
+      ratingSource,
+      heroTitle,
+      heroSubtitle
+    }
+  `;
+
+  console.log('Executing site settings query:', query);
+  const result = await sanityClient.fetch(query);
+  console.log('Site settings result:', result);
+  return result;
+}
+
 // Fetch all menu categories with their items
 export async function getMenuCategories(): Promise<MenuCategory[]> {
   const query = `

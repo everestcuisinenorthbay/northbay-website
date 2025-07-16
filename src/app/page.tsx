@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from '@/components/ui/Image';
 import { useState, useEffect, useRef } from 'react';
+import { getSiteSettings, SiteSettings } from '@/lib/api';
 
 const dishes = [
   { src: '/dish1.png', alt: 'Dish 1' },
@@ -90,7 +91,22 @@ export default function Home() {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const [isMacbookSize, setIsMacbookSize] = useState(false);
+  const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
   const autoAdvanceTime = 7000;
+
+  // Fetch site settings
+  useEffect(() => {
+    const fetchSiteSettings = async () => {
+      try {
+        const settings = await getSiteSettings();
+        setSiteSettings(settings);
+      } catch (error) {
+        console.error('Failed to fetch site settings:', error);
+      }
+    };
+    
+    fetchSiteSettings();
+  }, []);
 
   // Handle window resize
   useEffect(() => {
@@ -175,15 +191,25 @@ export default function Home() {
             className="text-white font-normal leading-none font-serif mb-6 text-[5rem] xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[7.5rem]"
             variants={fadeInUp}
           >
-            <span className="block md:inline">Taste </span>
-            <span className="block md:inline">of Nepal</span>
+            {siteSettings?.heroTitle ? (
+              <span>{siteSettings.heroTitle}</span>
+            ) : (
+              <>
+                <span className="block md:inline">Taste </span>
+                <span className="block md:inline">of Nepal</span>
+              </>
+            )}
             </motion.h1>
             <motion.p 
             className="text-white/80 text-sm sm:text-lg md:text-xl font-sans mb-8 tracking-wider px-4 sm:px-0"
               variants={fadeInUp}
             >
-            From the heart of the Himalayas to your table, experience the<br className="hidden sm:inline" />
-            warmth, flavors, and stories of Nepal in every bite.
+            {siteSettings?.heroSubtitle || (
+              <>
+                From the heart of the Himalayas to your table, experience the<br className="hidden sm:inline" />
+                warmth, flavors, and stories of Nepal in every bite.
+              </>
+            )}
             </motion.p>
             
             <motion.div 
@@ -191,23 +217,29 @@ export default function Home() {
               variants={fadeInUp}
             >
               <div className="flex mr-2">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <svg 
-                    key={star} 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 24 24" 
-                    fill={star <= 4 ? "#F7B241" : "none"} 
-                    stroke={star > 4 ? "#F7B241" : "none"}
-                    strokeWidth="2"
-                    className="w-5 h-5"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
-                  </svg>
-                ))}
+                {[1, 2, 3, 4, 5].map((star) => {
+                  const rating = siteSettings?.rating || 4.8;
+                  const isFilledStar = star <= Math.floor(rating);
+                  const isHalfStar = star === Math.ceil(rating) && rating % 1 !== 0;
+                  
+                  return (
+                    <svg 
+                      key={star} 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="0 0 24 24" 
+                      fill={isFilledStar ? "#F7B241" : "none"} 
+                      stroke={!isFilledStar ? "#F7B241" : "none"}
+                      strokeWidth="2"
+                      className="w-5 h-5"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                    </svg>
+                  );
+                })}
               </div>
-              <span className="text-white font-semibold">4.8</span>
+              <span className="text-white font-semibold">{siteSettings?.rating || 4.8}</span>
               <span className="text-white/80 ml-1">•</span>
-              <span className="text-white/80 ml-1">800+ Google Reviews</span>
+              <span className="text-white/80 ml-1">{siteSettings?.reviewCount || "800+"} {siteSettings?.ratingSource || "Google Reviews"}</span>
               </motion.div>
               
             <motion.div 
