@@ -23,6 +23,27 @@ export default function ContactPage() {
     setOpenSection(openSection === section ? null : section);
   };
 
+  const location = {
+    name: 'North Bay',
+    addressLine1: '340 Main St W',
+    addressLine2: 'North Bay, ON P1B 9V1',
+    phone: '705-495-2030',
+    email: 'everestcuisinenorthbay@gmail.com',
+    hours: [
+      { label: 'Tuesday - Sunday', value: '12:00 PM - 10:00 PM' },
+      { label: 'Monday', value: 'Closed' },
+    ],
+    reservations: false,
+    fb_link: 'https://www.facebook.com/everestcuisinenorthbay',
+    ig_link: 'https://www.instagram.com/everestcuisinenorthbay/',
+  };
+
+  const buildDirectionsLink = (l: {addressLine1: string; addressLine2: string}) =>
+    `https://maps.google.com/?q=${encodeURIComponent(`${l.addressLine1}, ${l.addressLine2}`)}`;
+
+  const buildEmbedSrc = (l: {addressLine1: string; addressLine2: string}) =>
+    `https://www.google.com/maps?q=${encodeURIComponent(`${l.addressLine1}, ${l.addressLine2}`)}&output=embed`;
+
   return (
     <>
       {/* Hero Banner */}
@@ -102,19 +123,23 @@ export default function ContactPage() {
                   
                   <AnimatePresence>
                     {(openSection === 'visit' || windowWidth >= 1024) && (
-                      <motion.address 
+                      <motion.div 
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="not-italic text-gray-600 pl-14 border-l border-everest-green/20 ml-3 font-sans overflow-hidden"
+                        className="text-gray-600 pl-14 border-l border-everest-green/20 ml-3 font-sans overflow-hidden"
                       >
-              <div className="mb-3">
-                <div className="font-medium">Our Location:</div>
-                <div>1846 Carling Ave</div>
-                <div>Ottawa, ON K2A 1E2</div>
+                        <div className="mb-4">
+                          <div className="font-medium">{location.name} Location:</div>
+                          <div>{location.addressLine1}</div>
+                          <div>{location.addressLine2}</div>
+                          <div className="text-sm text-gray-500 mt-1">Located on the 4th Floor</div>
+                          <div className="mt-2">
+                            <Link href={buildDirectionsLink(location)} target="_blank" className="text-everest-green hover:text-everest-gold transition-colors">Get Directions →</Link>
+                          </div>
                         </div>
-                      </motion.address>
+                      </motion.div>
                     )}
                   </AnimatePresence>
               </div>
@@ -139,21 +164,19 @@ export default function ContactPage() {
                   
                   <AnimatePresence>
                     {(openSection === 'hours' || windowWidth >= 1024) && (
-                      <motion.ul 
+                      <motion.div 
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.2 }}
                         className="pl-14 border-l border-everest-green/20 ml-3 text-gray-600 font-sans overflow-hidden"
                       >
-              <li className="mb-2">
-                <span className="font-medium">Monday - Sunday:</span>
-                <span className="ml-2">11:30 AM - 12:00 AM</span>
-              </li>
-                        <li className="text-sm text-gray-500">
-                We are open 7 days a week, including holidays
-              </li>
-                      </motion.ul>
+                        <ul className="mb-4">
+                          {location.hours.map((h) => (
+                            <li key={h.label} className="mb-1"><span className="font-medium">{h.label}:</span><span className="ml-2">{h.value}</span></li>
+                          ))}
+                        </ul>
+                      </motion.div>
                     )}
                   </AnimatePresence>
           </div>
@@ -178,32 +201,38 @@ export default function ContactPage() {
                   
                   <AnimatePresence>
                     {(openSection === 'contact' || windowWidth >= 1024) && (
-                      <motion.ul 
+                      <motion.div 
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="pl-14 border-l border-everest-green/20 ml-3 space-y-4 text-gray-600 font-sans overflow-hidden"
+                        className="pl-14 border-l border-everest-green/20 ml-3 space-y-6 text-gray-600 font-sans overflow-hidden"
                       >
-              <li>
-                <div className="font-medium mb-1">Phone:</div>
-                          <Link href="tel:+16139634406" className="text-everest-green hover:text-everest-gold transition-colors">
-                  613-963-4406
-                </Link>
-              </li>
-              <li>
-                <div className="font-medium mb-1">Email:</div>
-                          <Link href="mailto:everestcuisineottawa@gmail.com" className="text-everest-green hover:text-everest-gold transition-colors">
-                  everestcuisineottawa@gmail.com
-                </Link>
-              </li>
-              <li>
-                <div className="font-medium mb-1">For Reservations:</div>
-                          <Link href="/book-table" className="text-everest-green hover:text-everest-gold transition-colors">
-                  Book a Table Online
-                </Link>
-              </li>
-                      </motion.ul>
+                        <ul className="space-y-3">
+                          <li>
+                            <div className="font-medium mb-1">Phone ({location.name}):</div>
+                            <Link href={`tel:${location.phone.replace(/[^\d]/g,'')}`} className="text-everest-green hover:text-everest-gold transition-colors">
+                              {location.phone}
+                            </Link>
+                          </li>
+                          {location.email ? (
+                            <li>
+                              <div className="font-medium mb-1">Email:</div>
+                              <Link href={`mailto:${location.email}`} className="text-everest-green hover:text-everest-gold transition-colors">
+                                {location.email}
+                              </Link>
+                            </li>
+                          ) : null}
+                          <li>
+                            <div className="font-medium mb-1">{location.reservations ? 'For Reservations:' : 'Reservations:'}</div>
+                            {location.reservations ? (
+                              <Link href="/book-table" className="text-everest-green hover:text-everest-gold transition-colors">Book a Table Online</Link>
+                            ) : (
+                              <span className="text-sm">Please call {location.phone} for North Bay reservations.</span>
+                            )}
+                          </li>
+                        </ul>
+                      </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -211,7 +240,7 @@ export default function ContactPage() {
                 <div className="pt-6 border-t border-gray-200">
                   <div className="flex gap-4 pl-3">
                     <a 
-                      href="https://www.facebook.com/everestcuisineottawa" 
+                      href={location.fb_link} 
                       target="_blank"
                       rel="noreferrer" 
                       aria-label="Facebook"
@@ -222,7 +251,7 @@ export default function ContactPage() {
                       </svg>
                     </a>
                     <a 
-                      href="https://www.instagram.com/everestcuisineottawa/" 
+                      href={location.ig_link} 
                       target="_blank"
                       rel="noreferrer" 
                       aria-label="Instagram"
@@ -233,8 +262,8 @@ export default function ContactPage() {
                       </svg>
                     </a>
                   </div>
-          </div>
-        </div>
+                </div>
+              </div>
             </motion.div>
         
         {/* Google Map */}
@@ -245,7 +274,7 @@ export default function ContactPage() {
               className="h-[50vh] lg:h-full rounded-xl lg:rounded-tl-none lg:rounded-bl-none overflow-hidden shadow-lg border border-gray-100 relative lg:-ml-px"
             >
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2799.9535765520136!2d-75.7973177!3d45.4346264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce044c841a4fe3%3A0xb3d20ba6de3520cc!2s1846%20Carling%20Ave%2C%20Ottawa%2C%20ON%20K2A%201E2%2C%20Canada!5e0!3m2!1sen!2sus!4v1722431485345!5m2!1sen!2sus"
+            src={buildEmbedSrc(location)}
             width="100%"
             height="100%"
             style={{ border: 0 }}
@@ -258,7 +287,7 @@ export default function ContactPage() {
               {/* Get Directions button - positioned at bottom */}
               <div className="absolute bottom-4 left-4 right-4">
                 <Link 
-                  href="https://maps.google.com/?q=1846+Carling+Ave,+Ottawa,+ON+K2A+1E2" 
+                  href={buildDirectionsLink(location)}
                   target="_blank" 
                   className="flex items-center justify-center gap-2 bg-everest-green hover:bg-everest-gold text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg transition-colors font-medium shadow-md text-sm sm:text-base w-full sm:w-auto sm:inline-flex"
                 >
@@ -301,26 +330,21 @@ export default function ContactPage() {
             </motion.div>
             
             <div className="flex flex-row justify-center items-center gap-8 md:gap-16 lg:gap-24 max-w-6xl mx-auto flex-wrap md:flex-nowrap">
-              <a 
-                href="https://www.ubereats.com/ca/store/everest-cuisine-ottawa/xc0tc89RU_m7jiz7ue_X0Q" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="logo-shine group"
-              >
+              <div className="logo-shine group opacity-50 cursor-not-allowed">
                 <Image 
                   src="/ubereats-white.png" 
                   alt="Uber Eats" 
                   width={170} 
                   height={170} 
-                  className="object-contain transition-all duration-300" 
+                  className="object-contain transition-all duration-300 filter grayscale" 
                   style={{ 
                     filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.3))',
                   }} 
                 />
-              </a>
+              </div>
               
               <a 
-                href="https://www.doordash.com/store/everest-cuisine-ottawa-27901530" 
+                href="https://www.doordash.com/store/everest-cuisine-north-bay-north-bay-27996637/34123769/?srsltid=AfmBOoqeOQAkgGJwNwEw0I-Sqqx2g2Biv8n2UGxUWZRQFUxhe6m4_vST" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="logo-shine group"
@@ -337,26 +361,21 @@ export default function ContactPage() {
                 />
               </a>
               
-              <a 
-                href="https://www.skipthedishes.com/everest-cuisine-ottawa" 
-            target="_blank" 
-            rel="noopener noreferrer"
-                className="logo-shine group"
-              >
+              <div className="logo-shine group opacity-50 cursor-not-allowed">
                 <Image 
                   src="/skipthedishes-white.png" 
                   alt="SkipTheDishes" 
                   width={170} 
                   height={170} 
-                  className="object-contain transition-all duration-300" 
+                  className="object-contain transition-all duration-300 filter grayscale" 
                   style={{ 
                     filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.3))',
                   }} 
                 />
-              </a>
+              </div>
               
               <a 
-                href="https://app.kash4meexpress.com/everestcuisine/ec/book" 
+                href="https://app.kash4meexpress.com/everestcuisinenorthbay/main/book/" 
             target="_blank" 
             rel="noopener noreferrer"
                 className="logo-shine group"
@@ -372,7 +391,7 @@ export default function ContactPage() {
                   }} 
                 />
               </a>
-        </div>
+            </div>
         
             <motion.div
               initial={{ opacity: 0, y: 10 }}

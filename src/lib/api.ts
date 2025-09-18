@@ -39,7 +39,7 @@ export async function getMenuCategories(): Promise<MenuCategory[]> {
       _type,
       name,
       order,
-      "menuItems": *[_type == "menuItem" && references(^._id)] | order(name asc) {
+      "menuItems": *[_type == "menuItem" && references(^._id) && (availableInNorthBay == true || !defined(availableInNorthBay))] | order(name asc) {
         _id,
         _type,
         name,
@@ -48,7 +48,8 @@ export async function getMenuCategories(): Promise<MenuCategory[]> {
         image,
         isVegetarian,
         isSpicy,
-        isGlutenFree
+        isGlutenFree,
+        "availableInNorthBay": coalesce(availableInNorthBay, true)
       }
     }
   `;
@@ -62,7 +63,7 @@ export async function getMenuCategories(): Promise<MenuCategory[]> {
 // Fetch a flattened list of all menu items
 export async function getAllMenuItems(): Promise<MenuItem[]> {
   const query = `
-    *[_type == "menuItem"] | order(name asc) {
+    *[_type == "menuItem" && (availableInNorthBay == true || !defined(availableInNorthBay))] | order(name asc) {
       _id,
       _type,
       name,
@@ -72,6 +73,7 @@ export async function getAllMenuItems(): Promise<MenuItem[]> {
       isVegetarian,
       isSpicy,
       isGlutenFree,
+      "availableInNorthBay": coalesce(availableInNorthBay, true),
       "category": category->name
     }
   `;

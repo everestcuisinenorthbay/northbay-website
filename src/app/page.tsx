@@ -247,7 +247,7 @@ export default function Home() {
             variants={fadeIn}
           >
             <motion.a 
-              href={isMobile ? "https://app.kash4meexpress.com/everestcuisine/ec/book/" : "/menu"}
+              href={isMobile ? "https://app.kash4meexpress.com/everestcuisinenorthbay/main/book/" : "/menu"}
               target={isMobile ? "_blank" : ""}
               rel={isMobile ? "noopener noreferrer" : ""}
               className="inline-flex justify-center items-center w-full sm:w-[160px] py-5 sm:py-4 rounded-full bg-white/90 text-everest-green font-semibold text-lg hover:bg-everest-green hover:text-white transition-colors duration-300 shadow hover:shadow-lg touch-manipulation"
@@ -782,13 +782,13 @@ export default function Home() {
       transition={{ duration: 0.5, delay: 0.6 }}
     >
       <a 
-        href="tel:613-963-4406" 
+        href="tel:705-495-2030" 
         className="inline-flex items-center justify-center px-8 py-4 bg-everest-green text-white rounded-full text-lg font-medium hover:bg-everest-gold transition-colors duration-300 shadow-md hover:shadow-lg"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
         </svg>
-        Call 613-963-4406 for inquiries
+        Call 705-495-2030 for inquiries
       </a>
     </motion.div>
   </div>

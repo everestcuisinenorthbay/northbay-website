@@ -76,7 +76,7 @@ export default function AboutUs() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Everest Cuisine is a Indo-Nepalese restaurant and sushi bar in Ottawa, open late and always welcoming. From Himalayan thalis to fiery Manchurian, from momos to maki, we bring together the bold.
+            Everest Cuisine brings the authentic, bold flavors of Indo-Nepalese cooking to North Bay. From Himalayan thalis to fiery Manchurian and our famous momos, we offer a welcoming culinary experience.
           </motion.p>
         </div>
       </div>
@@ -103,7 +103,7 @@ export default function AboutUs() {
                 className="text-slate-700 mb-4"
                 variants={fadeInUp}
               >
-                Our kitchen reflects the range and richness of Himalayan flavors, with a few surprises along the way. Start with spicy Wai Wai Sadheko or crunchy Gobi 65, then dive into a comforting bowl of thukpa or a full Nepali thali with goat curry, rayo saag, and aloo ko achar.
+                Our kitchen reflects the range and richness of Himalayan flavors, with a few surprises along the way. We started with a vision to share our love for authentic Nepalese and Indian food. Start with spicy Wai Wai Sadheko or crunchy Gobi 65, then dive into a comforting bowl of thukpa or a full Nepali thali with goat curry, rayo saag, and aloo ko achar.
               </motion.p>
               <motion.p 
                 className="text-slate-700 mb-4"
@@ -121,7 +121,7 @@ export default function AboutUs() {
                 className="text-slate-700"
                 variants={fadeInUp}
               >
-                At Everest, it&apos;s all made from scratch. Big portions, honest prices, late-night hours. Whether you&apos;re here for a full Nepali meal, spicy street-style chowmein, or a quick lassi and snack, we&apos;ve got something with your name on it.
+                We're excited to bring the Everest experience to North Bay! It's all made from scratch with big portions and honest prices. Whether you're here for a full Nepali meal, spicy street-style chowmein, or a quick lassi and snack, we've got something with your name on it.
               </motion.p>
             </motion.div>
             <motion.div 

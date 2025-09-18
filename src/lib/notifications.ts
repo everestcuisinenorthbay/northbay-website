@@ -3,7 +3,7 @@
 // Pushover configuration with the provided token and key
 const PUSHOVER_TOKEN = process.env.PUSHOVER_TOKEN;
 const PUSHOVER_USER_KEY = process.env.PUSHOVER_USER_KEY;
-const ADMIN_EMAIL = 'everestcuisineottawa@gmail.com'; // Admin email for notifications
+const ADMIN_EMAIL = 'everestcuisinenorthbay@gmail.com'; // Admin email for notifications
 
 /**
  * Send a Pushover notification

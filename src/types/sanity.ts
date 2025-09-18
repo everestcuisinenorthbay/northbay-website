@@ -17,6 +17,7 @@ export interface MenuItem {
   isVegetarian: boolean;
   isSpicy: boolean;
   isGlutenFree: boolean;
+  availableInNorthBay: boolean;
 }
 
 export interface MenuCategory {

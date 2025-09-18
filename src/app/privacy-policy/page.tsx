@@ -74,9 +74,9 @@ export default function PrivacyPolicy() {
             <h2 className="text-2xl font-serif text-everest-green mt-8 mb-4">Contact Us</h2>
             <p>If you have any questions about this Privacy Policy, please contact us:</p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>By email: everestcuisineottawa@gmail.com</li>
-              <li>By phone: 613-963-4406</li>
-              <li>By mail: 1846 Carling Ave, Ottawa, ON K2A 1E2</li>
+              <li>By email: everestcuisinenorthbay@gmail.com</li>
+              <li>By phone: 705-495-2030</li>
+              <li>By mail: 340 Main St W, 4th Floor, North Bay, ON P1B 9V1</li>
             </ul>
           </div>
         </motion.div>

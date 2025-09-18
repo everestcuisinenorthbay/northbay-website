@@ -8,8 +8,8 @@ import "@fontsource/libre-baskerville/700.css";
 
 export const metadata: Metadata = {
   title: "Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar",
-  description: "Experience authentic Indo-Nepalese cuisine and sushi at Everest Cuisine in Ottawa. Fresh ingredients, traditional recipes, and a warm atmosphere.",
-  keywords: "Everest Cuisine, Nepali food, Indian restaurant, Sushi bar, Ottawa restaurant, Momo, Nepali cuisine, Indo-Nepalese food",
+  description: "Experience authentic Indo-Nepalese cuisine and sushi at Everest Cuisine in North Bay. Fresh ingredients, traditional recipes, and a warm atmosphere.",
+  keywords: "Everest Cuisine, Nepali food, Indian restaurant, Sushi bar, North Bay restaurant, Momo, Nepali cuisine, Indo-Nepalese food",
   authors: [{ name: "Everest Cuisine Restaurant" }],
   icons: {
     icon: [
@@ -30,9 +30,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     title: 'Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar',
-    description: 'Authentic Indo-Nepalese cuisine and sushi in Ottawa',
+    description: 'Authentic Indo-Nepalese cuisine and sushi in North Bay',
     siteName: 'Everest Cuisine',
-    url: 'https://everestcuisineottawa.com/',
+    url: 'https://everestcuisinenorthbay.com/',
     images: [
       {
         url: '/meta-preview.jpg',
@@ -48,9 +48,9 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar',
-    description: 'Authentic Indo-Nepalese cuisine and sushi in Ottawa',
+    description: 'Authentic Indo-Nepalese cuisine and sushi in North Bay',
     images: ['/meta-preview.jpg'],
-    site: '@EverestCuisine', // Replace with your Twitter handle if available
+    site: '@EverestCuisineNB', // Replace with your Twitter handle if available
   },
 };
 
@@ -65,23 +65,23 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
         <meta name="theme-color" content="#0a2e1a" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#0a2e1a" media="(prefers-color-scheme: dark)" />
-        <link rel="canonical" href="https://everestcuisineottawa.com/" />
+        <link rel="canonical" href="https://everestcuisinenorthbay.com/" />
         <script type="application/ld+json">{`
           {
             "@context": "https://schema.org",
             "@type": "Restaurant",
             "name": "Everest Cuisine",
-            "image": "https://everestcuisineottawa.com/meta-preview.jpg",
+            "image": "https://everestcuisinenorthbay.com/meta-preview.jpg",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "1846 Carling Ave",
-              "addressLocality": "Ottawa",
+              "streetAddress": "340 Main St W, 4th Floor",
+              "addressLocality": "North Bay",
               "addressRegion": "ON",
-              "postalCode": "K2A 1E2",
+              "postalCode": "P1B 9V1",
               "addressCountry": "CA"
             },
-            "telephone": "613-963-4406",
-            "url": "https://everestcuisineottawa.com"
+            "telephone": "705-495-2030",
+            "url": "https://everestcuisinenorthbay.com"
           }
         `}</script>
         {/* Google Analytics GA4 */}

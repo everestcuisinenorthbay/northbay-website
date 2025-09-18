@@ -1,9 +1,9 @@
 'use client';
 
-import BookingForm from './booking-form';
 import { motion } from 'framer-motion';
 import { ClockIcon, PhoneIcon, CalendarDaysIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
+import { locations } from '@/data/locations';
 
 export default function BookTablePage() {
   const fadeInUp = {
@@ -76,8 +76,13 @@ export default function BookTablePage() {
               <p className="text-white/90 font-sans">Fill out the form below to reserve your table</p>
             </div>
             
-            <div className="p-8">
-              <BookingForm />
+            <div className="p-8 text-center">
+              <h3 className="text-2xl font-serif text-everest-green mb-4">Online Reservations Coming Soon!</h3>
+              <p className="text-slate-600 mb-6">
+                We are currently working on bringing online reservations to our North Bay location. 
+                In the meantime, please call us at <a href="tel:705-495-2030" className="font-semibold text-everest-green hover:underline">705-495-2030</a> to book your table.
+              </p>
+              <p className="text-slate-500 text-sm">We apologize for any inconvenience.</p>
             </div>
           </div>
         </motion.div>
@@ -101,7 +106,9 @@ export default function BookTablePage() {
                 </div>
                 <div>
                   <h3 className="font-medium text-white mb-1 font-sans">Opening Hours</h3>
-                  <p className="text-white/80 font-sans">Daily from 11:30 AM to 12:00 AM</p>
+                  <div className="text-white/80 font-sans">
+                    <p><strong>North Bay:</strong> {locations[0].hours}</p>
+                  </div>
                 </div>
               </div>
               
@@ -111,7 +118,10 @@ export default function BookTablePage() {
                 </div>
                 <div>
                   <h3 className="font-medium text-white mb-1 font-sans">Large Groups</h3>
-                  <p className="text-white/80 font-sans">For parties larger than 8, please call us directly at <a href="tel:+16139634406" className="text-everest-gold hover:text-white/90 transition-colors">613-963-4406</a></p>
+                  <p className="text-white/80 font-sans">For parties larger than 8, please call us directly.
+                    <br />
+                    <strong>NB:</strong> <a href={locations[0].phoneHref} className="text-everest-gold hover:text-white/90 transition-colors">{locations[0].phone}</a>
+                  </p>
                 </div>
               </div>
               
@@ -159,27 +169,27 @@ export default function BookTablePage() {
         <div className="container mx-auto px-4 md:px-8 max-w-6xl">
           <h2 className="text-2xl md:text-3xl font-serif text-everest-green text-center mb-12">Order Online</h2>
           <div className="flex flex-wrap justify-center gap-20 md:gap-32 lg:gap-40">
-            <a href="https://www.ubereats.com/ca/store/everest-cuisine-ottawa/xc0tc89RU_m7jiz7ue_X0Q?srsltid=AfmBOorTYhfLTRuSXX3BCysDqy0mWvCKk3BTYLXNqYugewvJI_p6fTf6" target="_blank" rel="noopener noreferrer" className="logo-shine group">
+            <div className="logo-shine group opacity-50 cursor-not-allowed">
               <span className="relative inline-block">
-                <Image src="/ubereats.png" alt="Uber Eats" width={220} height={220} className="object-contain" style={{ filter: 'drop-shadow(0 0 1px rgba(255,255,255,0.2))' }} />
+                <Image src="/ubereats.png" alt="Uber Eats" width={220} height={220} className="object-contain filter grayscale" style={{ filter: 'drop-shadow(0 0 1px rgba(255,255,255,0.2))' }} />
                 <span className="shine-overlay"></span>
               </span>
-            </a>
-            <a href="https://www.doordash.com/en-CA/store/everest-cuisine-ottawa-27901530/?srsltid=AfmBOorebY3O-__Y1JXF58zBgkVp0y5WqhFercjMuOmhIbZh6_dd_rtv" target="_blank" rel="noopener noreferrer" className="logo-shine group">
+            </div>
+            <a href="https://www.doordash.com/store/everest-cuisine-north-bay-north-bay-27996637/34123769/?srsltid=AfmBOoqeOQAkgGJwNwEw0I-Sqqx2g2Biv8n2UGxUWZRQFUxhe6m4_vST" target="_blank" rel="noopener noreferrer" className="logo-shine group">
               <span className="relative inline-block">
                 <Image src="/doordash.png" alt="DoorDash" width={220} height={220} className="object-contain" style={{ filter: 'drop-shadow(0 0 1px rgba(255,255,255,0.2))' }} />
                 <span className="shine-overlay"></span>
               </span>
             </a>
-            <a href="https://www.skipthedishes.com/everest-cuisine-ottawa" target="_blank" rel="noopener noreferrer" className="logo-shine group">
+            <div className="logo-shine group opacity-50 cursor-not-allowed">
               <span className="relative inline-block">
-                <Image src="/skipthedishes.png" alt="SkipTheDishes" width={220} height={220} className="object-contain" style={{ filter: 'drop-shadow(0 0 1px rgba(255,255,255,0.2))' }} />
+                <Image src="/skipthedishes.png" alt="SkipTheDishes" width={220} height={220} className="object-contain filter grayscale" style={{ filter: 'drop-shadow(0 0 1px rgba(255,255,255,0.2))' }} />
                 <span className="shine-overlay"></span>
               </span>
-            </a>
-                </div>
-                </div>
-          </motion.div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
       
       {/* Testimonial Section */}
       <div className="container mx-auto px-4 md:px-8 py-16 max-w-4xl">

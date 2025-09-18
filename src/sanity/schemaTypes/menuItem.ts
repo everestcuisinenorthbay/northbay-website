@@ -54,6 +54,13 @@ export default defineType({
       type: 'image',
       options: { hotspot: true },
     }),
+    defineField({
+      name: 'availableInNorthBay',
+      title: '📍 North Bay Location', 
+      type: 'boolean',
+      initialValue: true,
+      description: 'Check = Available at North Bay location. Uncheck = Not available at North Bay.',
+    }),
   ],
   preview: {
     select: {

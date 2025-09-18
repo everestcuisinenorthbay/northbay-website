@@ -5,10 +5,12 @@ import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PhoneIcon, Bars3Icon, XMarkIcon, HomeIcon, BookOpenIcon, CalendarIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import { locations } from '@/data/locations';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const location = locations[0]; // North Bay is now the only location
   
   // Close menu when clicking outside
   useEffect(() => {
@@ -93,53 +95,62 @@ export default function Header() {
           <div className="w-16 h-full bg-everest-green/30 transform skew-x-12"></div>
         </div>
         
-        <div className="container mx-auto px-4 flex justify-between items-center text-center md:text-left relative">
-          <div className="hidden md:flex items-center text-base font-semibold font-sans">
-            <span className="inline-block w-2 h-2 bg-everest-green rounded-full mr-2 animate-pulse"></span>
-            <span>OPEN 7 DAYS A WEEK</span>
-            <span className="inline-block w-2 h-2 bg-everest-green rounded-full ml-2 animate-pulse"></span>
-          </div>
-          
-          {/* Mobile optimized layout */}
-          <div className="flex md:hidden items-center justify-center text-xs space-x-1.5 w-full">
-            <span className="bg-everest-green/10 px-2 py-0.5 rounded-full text-everest-green/90">OPEN DAILY</span>
-            <span>•</span>
-            <div className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 mr-1">
-                <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clipRule="evenodd" />
-              </svg>
-              11:30-12:00
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.name}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.5 }}
+            className="container mx-auto px-4 flex justify-between items-center text-center md:text-left relative"
+          >
+            <div className="hidden md:flex items-center text-base font-semibold font-sans">
+              <span className="inline-block w-2 h-2 bg-everest-green rounded-full mr-2 animate-pulse"></span>
+              <span>{location.name.toUpperCase()} • {location.open_days}</span>
+              <span className="inline-block w-2 h-2 bg-everest-green rounded-full ml-2 animate-pulse"></span>
             </div>
-            <span>•</span>
-            <Link 
-              href="tel:+16139634406" 
-              className="flex items-center gap-1 hover:text-everest-green/80 transition-colors font-sans"
-            >
-              <PhoneIcon className="w-3 h-3" />
-              <span>613-963-4406</span>
-            </Link>
-          </div>
-          
-          {/* Desktop right side */}
-          <div className="hidden md:flex items-center gap-6 font-sans">
-            <div className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1.5">
-                <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clipRule="evenodd" />
-              </svg>
-              11:30 AM - 12:00 AM
+            
+            {/* Mobile optimized layout */}
+            <div className="flex md:hidden items-center justify-center text-xs space-x-1.5 w-full">
+              <span className="bg-everest-green/10 px-2 py-0.5 rounded-full text-everest-green/90">{location.name.toUpperCase()}</span>
+              <span>•</span>
+              <div className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 mr-1">
+                  <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clipRule="evenodd" />
+                </svg>
+                {location.hours}
+              </div>
+              <span>•</span>
+              <Link 
+                href={location.phoneHref}
+                className="flex items-center gap-1 hover:text-everest-green/80 transition-colors font-sans"
+              >
+                <PhoneIcon className="w-3 h-3" />
+                <span>{location.phone}</span>
+              </Link>
             </div>
-            <div className="h-4 w-px bg-everest-green/30"></div>
-            <Link 
-              href="tel:+16139634406" 
-              className="flex items-center gap-1.5 hover:text-everest-green/80 transition-colors font-sans group"
-            >
-              <span className="bg-everest-green/10 p-1 rounded-full group-hover:bg-everest-green/20 transition-colors">
-                <PhoneIcon className="w-3.5 h-3.5" />
-              </span>
-              <span className="font-semibold">613-963-4406</span>
-            </Link>
-          </div>
-        </div>
+            
+            {/* Desktop right side */}
+            <div className="hidden md:flex items-center gap-6 font-sans">
+              <div className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 mr-1.5">
+                  <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clipRule="evenodd" />
+                </svg>
+                {location.hours}
+              </div>
+              <div className="h-4 w-px bg-everest-green/30"></div>
+              <Link 
+                href={location.phoneHref}
+                className="flex items-center gap-1.5 hover:text-everest-green/80 transition-colors font-sans group"
+              >
+                <span className="bg-everest-green/10 p-1 rounded-full group-hover:bg-everest-green/20 transition-colors">
+                  <PhoneIcon className="w-3.5 h-3.5" />
+                </span>
+                <span className="font-semibold">{location.phone}</span>
+              </Link>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Main Navigation */}
@@ -199,7 +210,7 @@ export default function Header() {
                 </li>
                 <li className="ml-2">
                   <Link 
-                    href="https://app.kash4meexpress.com/everestcuisine/ec/book/" 
+                    href="https://app.kash4meexpress.com/everestcuisinenorthbay/main/book/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="bg-everest-green text-everest-cream hover:bg-everest-gold hover:text-everest-green px-6 py-2 rounded-full transition-colors text-base uppercase tracking-wide font-bold shadow font-sans"
@@ -313,7 +324,7 @@ export default function Header() {
                 </motion.li>
                 <motion.li custom={6} variants={navItemVariants} className="pt-3">
                   <Link 
-                    href="https://app.kash4meexpress.com/everestcuisine/ec/book/" 
+                    href="https://app.kash4meexpress.com/everestcuisinenorthbay/main/book/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 bg-everest-green text-everest-cream py-3.5 px-4 font-bold rounded-lg hover:bg-everest-gold hover:text-everest-green transition-colors shadow-sm"
