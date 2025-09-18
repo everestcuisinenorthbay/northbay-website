@@ -27,8 +27,8 @@ const MenuCard = ({
 }: MenuCardProps) => {
   const [expanded, setExpanded] = useState(false);
   const clampLength = 80;
-  const isClamped = description.length > clampLength;
-  const displayText = expanded || !isClamped ? description : description.slice(0, clampLength) + '...';
+  const isClamped = description && description.length > clampLength;
+  const displayText = expanded || !isClamped ? description : description?.slice(0, clampLength) + '...';
   
   return (
     <motion.div
