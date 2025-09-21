@@ -97,31 +97,25 @@ export default function AboutUs() {
                 className="text-2xl sm:text-3xl font-serif text-everest-green mb-4"
                 variants={fadeInUp}
               >
-                A Taste of the Himalayas (and Beyond)
+                Bringing the Himalayas to North Bay
               </motion.h3>
               <motion.p 
                 className="text-slate-700 mb-4"
                 variants={fadeInUp}
               >
-                Our kitchen reflects the range and richness of Himalayan flavors, with a few surprises along the way. We started with a vision to share our love for authentic Nepalese and Indian food. Start with spicy Wai Wai Sadheko or crunchy Gobi 65, then dive into a comforting bowl of thukpa or a full Nepali thali with goat curry, rayo saag, and aloo ko achar.
+                Welcome to Everest Cuisine, where we bring the rich, authentic flavors of the Himalayas to the heart of North Bay. Our vision is simple: to share our love for genuine Nepalese and Indian food, from comforting bowls of thukpa to our famous Nepali thalis.
               </motion.p>
               <motion.p 
                 className="text-slate-700 mb-4"
                 variants={fadeInUp}
               >
-                We specialize in authentic Nepali momos: steamed, fried, tandoori, kothey, or jhol, served with house-made sauces and spice blends. Patrons even say that the momos are the best in town. But the journey doesn&apos;t end there. Our Indo-Chinese lineup features favorites like Hakka chowmein, chicken chilli, and Gobi Manchurian, all wok-tossed and deeply satisfying.
-              </motion.p>
-              <motion.p 
-                className="text-slate-700 mb-4"
-                variants={fadeInUp}
-              >
-                Craving sushi? Our Everest Killer Roll and Tokyo Sushi Platter blend Japanese technique with bold flavor, made fresh, in-house. And for something quick and hearty, our momo and chowmein wraps offer the perfect fusion bite.
+                We specialize in authentic momos, served steamed, fried, or in a savory jhol. But our journey doesn't stop there. Explore our Indo-Chinese favorites like Hakka chowmein, or try our unique sushi creations like the Everest Killer Roll. It's all made from scratch with generous portions and honest prices.
               </motion.p>
               <motion.p 
                 className="text-slate-700"
                 variants={fadeInUp}
               >
-                We're excited to bring the Everest experience to North Bay! It's all made from scratch with big portions and honest prices. Whether you're here for a full Nepali meal, spicy street-style chowmein, or a quick lassi and snack, we've got something with your name on it.
+                We're thrilled to share the Everest experience with you. Whether you're here for a full Nepali meal or a quick fusion bite, we've got something with your name on it.
               </motion.p>
             </motion.div>
             <motion.div 

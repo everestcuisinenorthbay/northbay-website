@@ -14,26 +14,20 @@ const dishes = [
 const reviews = [
   {
     id: 1,
-    text: "Fantastic place for takeout. This was my first time having Nepalese food and I really liked it. The momos were fantastic, and Chicken 65 is a must if you like spicy food. The sushi is also outstanding! Staff are very friendly, and ordering by phone and picking up was seamless. Will order again!",
-    author: "Eric Stacey",
+    text: "The restaurant overlooks the lake, offering a beautiful ambiance. The food is tasty, well-prepared, and reasonably priced. I tried the momo and the thali—both were excellent, with the thali standing out for its authentic Nepali flavor.",
+    author: "Subigya Kadariya",
     rating: 5,
   },
   {
     id: 2,
-    text: "Absolutely loved our experience! We were blown away by how delicious everything was. We ordered soup and fried momos—both outstanding. Our server, Sima, was friendly, attentive, and even offered complimentary masala chai. When I forgot my headphones, she ran after us to return them. Incredible service and amazing food—we'll definitely be back!",
-    author: "Danyyil Giba",
+    text: "The food here is ABSOLUTELY FABULOUS. I'm sad that I live far away and I can't eat here much more often. The quality, the flavours and the service are excellent. And the staff is incredibly nice 👍 We had our food in our hotel room (bonus), but the restaurant has a really nice view of North Bay and Lake Nipissing.",
+    author: "Tamara Atkin-McGraw",
     rating: 5,
   },
   {
     id: 3,
-    text: "Second time here. Had the veg tandoori momo first, and now the veg Pokhara Kothey (pan-fried) momo. Delicious and a little spicy, so the mango lassi—which is so tasty—helps. Portions are generous. Service is quick and always with a smile. The atmosphere is casual and welcoming. I will definitely return to try other items.",
-    author: "Sonia Myre",
-    rating: 5,
-  },
-  {
-    id: 4,
-    text: "I have gone here twice now and definitely want to go again! I love any kind of dumpling, and when I learned about momos I had to try some. Everest Cuisine is a cute spot and the serving of 10 momos is quite filling. The student menu portions are huge, so keep that in mind before ordering multiple things!",
-    author: "Sara Robinson",
+    text: "As I sit here with my beloved family, I am feeling gracious for the nourishing and delectable food provided by the staff at Everest! The flavors are incredible, and every dish feels like a taste of home. We'll definitely be coming back again and again.",
+    author: "Nick Augustyn",
     rating: 5,
   },
 ];
@@ -562,7 +556,7 @@ export default function Home() {
                     >
                       <div className="text-center sm:text-left">
                         <p className="text-everest-cream font-semibold text-lg">{review.author}</p>
-                        <div className="flex items-center justify-center sm:justify-start mt-1">
+                        <div className="flex items-center justify-center mt-1">
                           {[...Array(5)].map((_, i) => (
                           <svg 
                             key={i} 
