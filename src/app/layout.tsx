@@ -7,9 +7,9 @@ import "@fontsource/libre-baskerville/400-italic.css";
 import "@fontsource/libre-baskerville/700.css";
 
 export const metadata: Metadata = {
-  title: "Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar",
-  description: "Experience authentic Indo-Nepalese cuisine and sushi at Everest Cuisine in North Bay. Fresh ingredients, traditional recipes, and a warm atmosphere.",
-  keywords: "Everest Cuisine, Nepali food, Indian restaurant, Sushi bar, North Bay restaurant, Momo, Nepali cuisine, Indo-Nepalese food",
+  title: "Everest Cuisine | Indo-Nepalese Restaurant",
+  description: "Experience authentic Indo-Nepalese cuisine at Everest Cuisine in North Bay. Fresh ingredients, traditional recipes, and a warm atmosphere.",
+  keywords: "Everest Cuisine, Nepali food, Indian restaurant, North Bay restaurant, Momo, Nepali cuisine, Indo-Nepalese food",
   authors: [{ name: "Everest Cuisine Restaurant" }],
   icons: {
     icon: [
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    title: 'Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar',
-    description: 'Authentic Indo-Nepalese cuisine and sushi in North Bay',
+    title: 'Everest Cuisine | Indo-Nepalese Restaurant',
+    description: 'Authentic Indo-Nepalese cuisine in North Bay',
     siteName: 'Everest Cuisine',
     url: 'https://everestcuisinenorthbay.com/',
     images: [
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
         url: '/meta-preview.jpg',
         width: 1200,
         height: 627,
-        alt: 'Everest Cuisine - Authentic Indo-Nepalese Restaurant & Sushi Bar',
+        alt: 'Everest Cuisine - Authentic Indo-Nepalese Restaurant',
       }
     ],
   },
@@ -47,8 +47,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Everest Cuisine | Indo-Nepalese Restaurant & Sushi Bar',
-    description: 'Authentic Indo-Nepalese cuisine and sushi in North Bay',
+    title: 'Everest Cuisine | Indo-Nepalese Restaurant',
+    description: 'Authentic Indo-Nepalese cuisine in North Bay',
     images: ['/meta-preview.jpg'],
     site: '@EverestCuisineNB', // Replace with your Twitter handle if available
   },

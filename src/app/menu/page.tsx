@@ -164,7 +164,7 @@ export default function MenuPage() {
           <h1 className="text-5xl font-normal mb-6 text-[#2C1810] font-baskerville">Our Menu</h1>
           <div className="w-24 h-1 bg-[#D4A373] mx-auto mb-8"></div>
           <p className="text-lg text-[#5C4033] max-w-2xl mx-auto font-geist">
-            Experience the authentic flavors of Nepal and India, alongside our fresh Sushi selections. 
+            Experience the authentic flavors of Nepal and India.
             Each dish is crafted with care using traditional recipes and locally-sourced ingredients.
           </p>
         </div>

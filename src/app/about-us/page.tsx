@@ -109,7 +109,7 @@ export default function AboutUs() {
                 className="text-slate-700 mb-4"
                 variants={fadeInUp}
               >
-                We specialize in authentic momos, served steamed, fried, or in a savory jhol. But our journey doesn't stop there. Explore our Indo-Chinese favorites like Hakka chowmein, or try our unique sushi creations like the Everest Killer Roll. It's all made from scratch with generous portions and honest prices.
+                We specialize in authentic momos, served steamed, fried, or in a savory jhol. But our journey doesn't stop there. Explore our Indo-Chinese favorites like Hakka chowmein. It's all made from scratch with generous portions and honest prices.
               </motion.p>
               <motion.p 
                 className="text-slate-700"
