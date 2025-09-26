@@ -4,6 +4,12 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import CommunityCarousel from '@/components/CommunityCarousel';
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "Learn the story behind Everest Cuisine, North Bay's home for authentic Indo-Nepalese food. Discover our passion for fresh ingredients and traditional Himalayan recipes.",
+};
 
 // Animation variants
 const fadeInUp = {

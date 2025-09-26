@@ -7,7 +7,10 @@ import "@fontsource/libre-baskerville/400-italic.css";
 import "@fontsource/libre-baskerville/700.css";
 
 export const metadata: Metadata = {
-  title: "Everest Cuisine | Indo-Nepalese Restaurant",
+  title: {
+    default: 'Everest Cuisine',
+    template: '%s | Everest Cuisine',
+  },
   description: "Experience authentic Indo-Nepalese cuisine at Everest Cuisine in North Bay. Fresh ingredients, traditional recipes, and a warm atmosphere.",
   keywords: "Everest Cuisine, Nepali food, Indian restaurant, North Bay restaurant, Momo, Nepali cuisine, Indo-Nepalese food",
   authors: [{ name: "Everest Cuisine Restaurant" }],
@@ -72,6 +75,9 @@ export default function RootLayout({
             "@type": "Restaurant",
             "name": "Everest Cuisine",
             "image": "https://everestcuisinenorthbay.com/meta-preview.jpg",
+            "servesCuisine": "Indo-Nepalese",
+            "priceRange": "$$",
+            "openingHours": "Tu-Su 12:00-22:00",
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "340 Main St W, 4th Floor",
