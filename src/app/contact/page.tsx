@@ -5,12 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { PhoneIcon, MapPinIcon, ClockIcon, ChevronDownIcon, EnvelopeIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Contact Us",
-  description: "Contact Everest Cuisine in North Bay. Find our address, phone number, and hours, or send us a message. We look forward to hearing from you.",
-};
+ 
 
 export default function ContactPage() {
   const [openSection, setOpenSection] = useState<string | null>('visit');
