@@ -7,6 +7,7 @@ import "@fontsource/libre-baskerville/400-italic.css";
 import "@fontsource/libre-baskerville/700.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://everestcuisinenorthbay.com'),
   title: {
     default: 'Everest Cuisine',
     template: '%s | Everest Cuisine',
@@ -68,7 +69,6 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
         <meta name="theme-color" content="#0a2e1a" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#0a2e1a" media="(prefers-color-scheme: dark)" />
-        <link rel="canonical" href="https://everestcuisinenorthbay.com/" />
         <script type="application/ld+json">{`
           {
             "@context": "https://schema.org",

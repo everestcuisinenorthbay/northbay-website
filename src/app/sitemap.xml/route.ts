@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const baseUrl = 'https://everestcuisineottawa.com';
+  const baseUrl = 'https://everestcuisinenorthbay.com';
   const pages = [
     '',
     'menu',

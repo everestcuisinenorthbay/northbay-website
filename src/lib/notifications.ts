@@ -127,7 +127,7 @@ export function sendBookingConfirmationEmail(
   if (!websiteUrl) {
     throw new Error('NEXT_PUBLIC_WEBSITE_URL environment variable is not set!');
   }
-  const contactPhoneNumber = '613-963-4406'; // Or use an env variable
+  const contactPhoneNumber = '705-495-2030'; // Or use an env variable
 
   const html = `
     <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 20px auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
@@ -153,7 +153,7 @@ export function sendBookingConfirmationEmail(
         <p style="font-size: 16px; line-height: 1.6; margin-top: 25px;">Warm regards,<br>The Everest Cuisine Team</p>
       </div>
       <div style="background-color: #f1f1f1; padding: 20px 30px; font-size: 13px; color: #555; text-align: center;">
-        <p style="margin: 5px 0;">Everest Cuisine<br>1846 Carling Ave, Ottawa, ON K2A 1E2</p>
+        <p style="margin: 5px 0;">Everest Cuisine<br>340 Main St W, 4th Floor, North Bay, ON P1B 9V1</p>
         <p style="margin: 5px 0;">Phone: ${contactPhoneNumber} | Website: <a href="${websiteUrl}" style="color: #D4A373; text-decoration: none;">${websiteUrl}</a></p>
       </div>
     </div>
