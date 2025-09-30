@@ -9,8 +9,8 @@ import "@fontsource/libre-baskerville/700.css";
 export const metadata: Metadata = {
   metadataBase: new URL('https://everestcuisinenorthbay.com'),
   title: {
-    default: 'Everest Cuisine',
-    template: '%s | Everest Cuisine',
+    default: 'Everest Cuisine | Indo-Nepalese Hakka Restaurant',
+    template: '%s | Everest Cuisine | Indo-Nepalese Hakka Restaurant',
   },
   description: "Experience authentic Indo-Nepalese cuisine at Everest Cuisine in North Bay. Fresh ingredients, traditional recipes, and a warm atmosphere.",
   keywords: "Everest Cuisine, Nepali food, Indian restaurant, North Bay restaurant, Momo, Nepali cuisine, Indo-Nepalese food",
@@ -33,9 +33,9 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    title: 'Everest Cuisine | Indo-Nepalese Restaurant',
+    title: 'Everest Cuisine | Indo-Nepalese Hakka Restaurant',
     description: 'Authentic Indo-Nepalese cuisine in North Bay',
-    siteName: 'Everest Cuisine',
+    siteName: 'Everest Cuisine | Indo-Nepalese Hakka Restaurant',
     url: 'https://everestcuisinenorthbay.com/',
     images: [
       {
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Everest Cuisine | Indo-Nepalese Restaurant',
+    title: 'Everest Cuisine | Indo-Nepalese Hakka Restaurant',
     description: 'Authentic Indo-Nepalese cuisine in North Bay',
     images: ['/meta-preview.jpg'],
     site: '@EverestCuisineNB', // Replace with your Twitter handle if available
