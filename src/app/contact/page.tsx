@@ -331,18 +331,23 @@ export default function ContactPage() {
             </motion.div>
             
             <div className="flex flex-row justify-center items-center gap-8 md:gap-16 lg:gap-24 max-w-6xl mx-auto flex-wrap md:flex-nowrap">
-              <div className="logo-shine group opacity-50 cursor-not-allowed">
+              <a 
+                href="https://www.ubereats.com/ca/store/everest-cuisine-northbay-340-main-st-w/ibqp0yhPSx2IzAImL8Hn5Q?srsltid=AfmBOoo6fxagtlDVDS3Oq4DEzJ_quQsF82AUuPnzzSYe4G1uIoIjTP17" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="logo-shine group"
+              >
                 <Image 
                   src="/ubereats-white.png" 
                   alt="Uber Eats" 
                   width={170} 
                   height={170} 
-                  className="object-contain transition-all duration-300 filter grayscale" 
+                  className="object-contain transition-all duration-300" 
                   style={{ 
                     filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.3))',
                   }} 
                 />
-              </div>
+              </a>
               
               <a 
                 href="https://www.doordash.com/store/everest-cuisine-north-bay-north-bay-27996637/34123769/?srsltid=AfmBOoqeOQAkgGJwNwEw0I-Sqqx2g2Biv8n2UGxUWZRQFUxhe6m4_vST" 

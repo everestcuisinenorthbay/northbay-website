@@ -131,9 +131,7 @@ export default function Footer() {
             <div className="mt-6">
               <h5 className="text-xs text-everest-gold mb-3 tracking-wider">Order Online</h5>
               <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                <div className="opacity-50 cursor-not-allowed">
-                  <span className="px-3 py-1.5 bg-[#2c463c] rounded-md text-xs tracking-wider transition-colors filter grayscale">UberEats</span>
-                </div>
+                <a href="https://www.ubereats.com/ca/store/everest-cuisine-northbay-340-main-st-w/ibqp0yhPSx2IzAImL8Hn5Q?srsltid=AfmBOoo6fxagtlDVDS3Oq4DEzJ_quQsF82AUuPnzzSYe4G1uIoIjTP17" className="px-3 py-1.5 bg-[#2c463c] hover:bg-everest-gold/20 rounded-md text-xs tracking-wider transition-colors" target="_blank" rel="noopener noreferrer">UberEats</a>
                 <a href="https://www.doordash.com/store/everest-cuisine-north-bay-north-bay-27996637/34123769/?srsltid=AfmBOoqeOQAkgGJwNwEw0I-Sqqx2g2Biv8n2UGxUWZRQFUxhe6m4_vST" className="px-3 py-1.5 bg-[#2c463c] hover:bg-everest-gold/20 rounded-md text-xs tracking-wider transition-colors" target="_blank" rel="noopener noreferrer">DoorDash</a>
                 <div className="opacity-50 cursor-not-allowed">
                   <span className="px-3 py-1.5 bg-[#2c463c] rounded-md text-xs tracking-wider transition-colors filter grayscale">SkipTheDishes</span>

@@ -169,12 +169,17 @@ export default function BookTablePage() {
         <div className="container mx-auto px-4 md:px-8 max-w-6xl">
           <h2 className="text-2xl md:text-3xl font-serif text-everest-green text-center mb-12">Order Online</h2>
           <div className="flex flex-wrap justify-center gap-20 md:gap-32 lg:gap-40">
-            <div className="logo-shine group opacity-50 cursor-not-allowed">
+            <a 
+              href="https://www.ubereats.com/ca/store/everest-cuisine-northbay-340-main-st-w/ibqp0yhPSx2IzAImL8Hn5Q?srsltid=AfmBOoo6fxagtlDVDS3Oq4DEzJ_quQsF82AUuPnzzSYe4G1uIoIjTP17" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="logo-shine group"
+            >
               <span className="relative inline-block">
-                <Image src="/ubereats.png" alt="Uber Eats" width={220} height={220} className="object-contain filter grayscale" style={{ filter: 'drop-shadow(0 0 1px rgba(255,255,255,0.2))' }} />
+                <Image src="/ubereats.png" alt="Uber Eats" width={220} height={220} className="object-contain" style={{ filter: 'drop-shadow(0 0 1px rgba(255,255,255,0.2))' }} />
                 <span className="shine-overlay"></span>
               </span>
-            </div>
+            </a>
             <a href="https://www.doordash.com/store/everest-cuisine-north-bay-north-bay-27996637/34123769/?srsltid=AfmBOoqeOQAkgGJwNwEw0I-Sqqx2g2Biv8n2UGxUWZRQFUxhe6m4_vST" target="_blank" rel="noopener noreferrer" className="logo-shine group">
               <span className="relative inline-block">
                 <Image src="/doordash.png" alt="DoorDash" width={220} height={220} className="object-contain" style={{ filter: 'drop-shadow(0 0 1px rgba(255,255,255,0.2))' }} />
